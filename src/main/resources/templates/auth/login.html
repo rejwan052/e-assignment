@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html class="no-js css-menubar" lang="en"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+    <!--<![endif]-->
+
+  <head th:include="fragments/login-header :: login-header" />
+  
+  <body class="animsition page-login-v2 layout-full page-dark">
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a th:href="browsehappy.com">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Page -->
+    <div class="page" data-animsition-in="fade-in" data-animsition-out="fade-out">
+      <div class="page-content">
+        
+        
+        <div class="page-brand-info">
+          <div class="brand">
+            <img class="brand-img" th:src="@{assets/images/logo-colored@2x.png}" alt="...">
+            <h2 class="brand-text font-size-40">e-assignment</h2>
+          </div>
+          <p class="font-size-20">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+			
+		<div class="page-login-main animation-slide-right animation-duration-1">
+          
+          <div class="brand hidden-md-up">
+            <img class="brand-img" th:src="@{assets/images/logo-colored@2x.png}" alt="...">
+            <h3 class="brand-text font-size-40">Remark</h3>
+          </div>
+          
+			<div th:if="${param.error != null}" th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}" class="alert dark alert-icon alert-danger alert-dismissible"	role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<i class="icon wb-close" aria-hidden="true"></i>
+			</div>
+		
+          <h3 class="font-size-24">Sign In</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+
+          <form method="post" action="">
+            <div class="form-group">
+              <label class="sr-only" for="inputEmail">Email</label>
+              <input type="email" class="form-control" id="inputEmail" name="username" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <label class="sr-only" for="inputPassword">Password</label>
+              <input type="password" class="form-control" id="inputPassword" name="password"
+                placeholder="Password">
+            </div>
+            <div class="form-group clearfix">
+              <div class="checkbox-custom checkbox-inline checkbox-primary float-left">
+                <input type="checkbox" id="rememberMe" name="rememberMe">
+                <label for="rememberMe">Remember me</label>
+              </div>
+              <a class="float-right" href="forgot-password.html">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+          </form>
+
+          <!-- <p>No account? <a href="register-v2.html">Sign Up</a></p> -->
+
+          <!-- <footer class="page-copyright">
+            <p>WEBSITE BY Creation Studio</p>
+            <p>© 2018. All RIGHT RESERVED.</p>
+            <div class="social">
+              <a class="btn btn-icon btn-round social-twitter mx-5" href="javascript:void(0)">
+            <i class="icon bd-twitter" aria-hidden="true"></i>
+          </a>
+              <a class="btn btn-icon btn-round social-facebook mx-5" href="javascript:void(0)">
+            <i class="icon bd-facebook" aria-hidden="true"></i>
+          </a>
+              <a class="btn btn-icon btn-round social-google-plus mx-5" href="javascript:void(0)">
+            <i class="icon bd-google-plus" aria-hidden="true"></i>
+          </a>
+            </div>
+          </footer> -->
+        </div>
+
+      </div>
+    </div>
+    <!-- End Page -->
+    
+    <div th:include="fragments/login-js :: login-js" th:remove="tag"></div>
+    
+    
+  </body>
+</html>

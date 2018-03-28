@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sd="http://io.github.jpenren/sd"
+	layout:decorate="~{layouts/main}">
+	
+<head>
+<meta charset="UTF-8">
+<title>e-assignment | Users</title>
+</head>
+<body class="animsition site-navbar-small page-user">
+	
+	<th:block layout:fragment="~{page-specific-css-script}">
+	
+		<link th:href="@{/assets/css/pages/user/user.css}" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" th:href="@{assets/global/vendor/bootstrap-toggle/bootstrap-toggle.css}">
+		<link rel="stylesheet" th:href="@{assets/css/apps/work.min.css}">
+		
+		<script th:src="@{assets/global/vendor/bootstrap-toggle/bootstrap-toggle.js}"></script>
+		
+		<style type="text/css">
+			/* page specific css */
+			
+		</style>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+			var contextRoot = /*[[@{/}]]*/ '';
+
+			$(".toggle-event").bootstrapToggle({
+				  on       :   "Active",
+				  off      :   "Inactive",
+				  onstyle  :   "success" ,
+				  offstyle :   "danger"
+			});
+				
+			 function userActiveInactive(userId,check) {
+				 
+				var userActiveOrInactive = $(check).prop('checked');
+				
+				var formData = {};
+				formData['enabled'] = userActiveOrInactive;
+				
+				 $.post(contextRoot+"activeOrInactiveUser/"+userId,formData,function(data){
+	     	    		successMsg(data.message);
+		     	    	//console.log(data.message);
+	     	    }).fail(function(data) {
+	     	        if(data.responseJSON.error.indexOf("InternalError") > -1){
+	     	        	errorMsg(data.responseJSON.message);
+	     	        	//console.log(data.responseJSON.message);
+	     	        }else{
+	     	        	var errors = $.parseJSON(data.responseJSON.message);
+	     	            $.each( errors,function( index,item ){
+	     	                errorMsg(item.defaultMessage);
+	     	            	//console.log(item.defaultMessage);
+	     	            });
+	     	        }
+	     	    });
+			 }
+			  
+
+		/*]]>*/ 	
+	</script>
+		
+	</th:block>
+	
+		
+		<!-- Panel -->
+        <div class="panel app-work" layout:fragment="~{page-content}">
+
+		<div class="panel-heading">
+			<h3 class="panel-title">User List</h3>
+			
+			<form class="panel-search-form" th:action="@{/users}" role="search">
+				<div class="input-search">
+					<i class="input-search-icon md-search" aria-hidden="true"></i> 
+					<input class="form-control" id="searchTerm" name="searchTerm" placeholder="Search User" type="text">
+					<a th:href="@{users}"><i class="icon md-refresh"></i></a>
+				</div>
+			</form>
+
+			<ul class="panel-info">
+				<li>
+					<div class="num blue-600">23</div>
+					<p>Users</p>
+				</li>
+				<li>
+					<div class="num orange-600">8</div>
+					<p>Teachers</p>
+				</li>
+				<li>
+					<div class="num green-600">5</div>
+					<p>Students</p>
+				</li>
+			</ul>
+		</div>
+
+		<div class="panel-body">
+          
+            <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
+              
+              <div class="dropdown page-user-sortlist" style="top:0">
+                Order By: <a class="dropdown-toggle inline-block" data-toggle="dropdown"
+                  href="#" aria-expanded="false">Last Active</a>
+                <div class="dropdown-menu animation-scale-up animation-top-right animation-duration-250"
+                  role="menu">
+                  <a class="active dropdown-item sorted" sd:pagination-sort="email">Email</a>
+                  <a class="dropdown-item sorted" sd:pagination-sort="firstName">First Name</a>
+                  <a class="dropdown-item sorted" sd:pagination-sort="enabled">Active</a>
+                  <a class="dropdown-item sorted" sd:pagination-sort="organization">Organization</a>
+                </div>
+              </div>
+			 
+              <div class="tab-content">
+                
+                <div class="tab-pane animation-fade active" id="users" role="tabpanel">
+                  <ul class="list-group">
+                    
+                    <li class="list-group-item" th:each="row : ${page}">
+                    
+                      <div class="media">
+                        <div class="pr-0 pr-sm-20 align-self-center">
+                          <div class="avatar avatar-online">
+                            <!-- <img th:src="@{'/avatar/'+${row.id}}" alt="..." /> -->
+                            <img th:src="*{'data:image/png;base64,'+row?.image}" alt="..." > 
+                            <i class="avatar avatar-busy"></i>
+                          </div>
+                        </div>
+                        <div class="media-body align-self-center">
+                          <h5 class="mt-0 mb-5">
+                          	<strong th:text="${row?.firstName+' '+row?.lastName}"></strong>
+                          	<span class="badge badge-primary" th:text="${#strings.listJoin(#messages.listMsg(row.roles), ',')}"></span>
+                          </h5>
+                          <p>
+                          	<i class="icon wb-envelope-open" aria-hidden="true"></i>
+                          	<span th:text="${row?.email}"></span>
+                          </p>
+                          <p th:if="${not #strings.isEmpty(row.organizationName)}">
+                            <i class="icon fa-institution" aria-hidden="true"></i>
+                            <span th:text="${row?.organizationName}"></span>
+                          </p>
+						  <div>
+								<a class="text-action" href="javascript:void(0)"> 
+									<i th:if="${#strings.containsIgnoreCase(row.gender,'F')}" class="icon fa-female" aria-hidden="true"></i>
+									<i th:if="${#strings.containsIgnoreCase(row.gender,'M')}" class="icon fa-male" aria-hidden="true"></i>
+								</a> 
+								<i th:if="${not #strings.isEmpty(row.bloodGroup)}" class="icon fa-tint" aria-hidden="true"></i>
+								<span th:text="${row?.bloodGroup}"></span>
+						  </div>
+						</div>
+                        <div class="pl-0 pl-sm-20 mt-15 mt-sm-0 align-self-center">
+                          <!-- <button type="button" th:class="${row.enabled} ? 'btn btn-outline btn-success btn-sm' : 'btn btn-outline btn-danger btn-sm'" th:if="${row.enabled} == true">Active</button>
+                          <button type="button" th:class="${row.enabled} ? 'btn btn-outline btn-success btn-sm' : 'btn btn-outline btn-danger btn-sm'" th:if="${row.enabled} == false">Inactive</button> -->
+                          
+                          <input class="toggle-event" th:onchange="'javascript:userActiveInactive(\''+${row.id}+'\',this);'" th:checked="${row.enabled}"  data-toggle="toggle" type="checkbox">
+                          
+                        </div>
+                      </div>
+                    </li>
+                   
+                  </ul>
+                  <nav>
+                    <div class="row">
+					    <div class="col-sm-6">
+					    	<div sd:pagination-summary="">info</div>
+					    </div>
+					    <div class="col-sm-6">
+					    	<nav class="pull-right">
+							<ul class="pagination" sd:pagination="full">
+								<!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+								<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+							   	<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+							</ul>
+						</nav>
+					    </div>
+					</div>
+                  </nav>
+                  
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Panel -->
+	
+</body>
+</html>

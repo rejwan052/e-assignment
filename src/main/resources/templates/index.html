@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layouts/main}">
+  	  
+	<head>
+		<title>e-assignment | Dashboard</title>
+	</head>
+	
+<body class="animsition site-navbar-small dashboard">
+
+	<div layout:fragment="~{page-content}">
+	
+		<div class="row" data-plugin="matchHeight" data-by-row="true">
+		
+          <!-- Start First Row For Admin -->
+          <div class="col-xl-12 col-lg-12" sec:authorize="hasAuthority('ADMIN_PRIVILEGE')">
+            <div class="row">
+            
+              <div class="col-lg-4">
+                <!-- Card -->
+                <div class="card p-15 flex-row justify-content-between">
+                  <div class="white">
+                    <i class="icon icon-circle icon-2x fa fa-sitemap bg-purple-600" aria-hidden="true"></i>
+                  </div>
+                  <div class="counter counter-md counter text-right">
+                    <div class="counter-number-group">
+                      <span class="counter-number" th:text="${dashboardInfo.totalUser}"> total user</span>
+                      <span class="counter-number-related text-capitalize">Users</span>
+                    </div>
+                    <a th:href="@{/users}" class="btn btn-pure btn-primary icon-2x md-view-list waves-effect waves-classic"></a>
+                  </div>
+                </div>
+                <!-- End Card -->
+              </div>
+
+			  <div class="col-lg-4">
+                <!-- Card -->
+                <div class="card p-15 flex-row justify-content-between">
+                  <div class="white">
+                    <i class="icon icon-circle icon-2x wb-users bg-green-600" aria-hidden="true"></i>
+                  </div>
+                  <div class="counter counter-md counter text-right">
+                    <div class="counter-number-group">
+                      <span class="counter-number" th:text="${dashboardInfo.totalTeacher}"> total teacher</span>
+                      <span class="counter-number-related text-capitalize">Teachers</span>
+                    </div>
+                    <a th:href="@{/users}" class="btn btn-pure btn-primary icon-2x md-view-list waves-effect waves-classic"></a>
+                  </div>
+                </div>
+                <!-- End Card -->
+              </div>
+			  
+			  <div class="col-lg-4">
+                <!-- Card -->
+                <div class="card p-15 flex-row justify-content-between">
+                  <div class="white">
+                    <i class="icon icon-circle icon-2x wb-users bg-orange-600" aria-hidden="true"></i>
+                  </div>
+                  <div class="counter counter-md counter text-right">
+                    <div class="counter-number-group">
+                      <span class="counter-number" th:text="${dashboardInfo.totalStudent}"></span>
+                      <span class="counter-number-related text-capitalize">students</span>
+                    </div>
+                    <a th:href="@{/users}" class="btn btn-pure btn-primary icon-2x md-view-list waves-effect waves-classic"></a>
+                  </div>
+                </div>
+                <!-- End Card -->
+              </div>
+			  
+            </div>
+          </div>
+          <!-- End First Row For Admin -->
+          
+          <!-- Start Team Total Completed -->
+          <div class="col-xl-12">
+            <div id="teamCompletedWidget" class="card card-shadow example-responsive">
+              <div class="card-block p-20 pb-25">
+                <div class="row pb-40" data-plugin="matchHeight">
+                  <div class="col-md-6">
+                    <div class="counter text-left pl-10">
+                      <div class="counter-label">Team Total Completed</div>
+                      <div class="counter-number-group text-truncate">
+                        <span>1,439</span>
+                        <span>86%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <ul class="list-inline mr-50">
+                      <li class="list-inline-item">
+                        Task Completed
+                      </li>
+                      <li class="list-inline-item">
+                        Cards Completed
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="ct-chart"></div>
+              </div>
+            </div>
+          </div>
+          <!-- End Team Total Completed -->
+          
+		</div>
+		
+	</div>
+	
+</body>
+</html>
