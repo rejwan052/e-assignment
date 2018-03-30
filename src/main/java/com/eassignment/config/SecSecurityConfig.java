@@ -3,6 +3,7 @@ package com.eassignment.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,13 +14,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
+import com.eassignment.filter.AjaxTimeoutRedirectFilter;
 import com.eassignment.security.CustomAccessDeniedHandler;
 import com.eassignment.security.service.SecurityService;
 
@@ -50,6 +56,10 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private SecurityService securityService;
+    
+    
+    @Autowired
+    private AjaxTimeoutRedirectFilter ajaxTimeoutRedirectFilter;
     
 
     public SecSecurityConfig() {
@@ -84,11 +94,7 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login?error=true")
                 .successHandler(myAuthenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
-            .permitAll()
-                .and()
-            .sessionManagement()
-                .invalidSessionUrl("/invalidSession.html")
-                .sessionFixation().none()
+                .permitAll()
             .and()
             /*.exceptionHandling().accessDeniedHandler(accessDeniedHandler)
         	.and()*/
@@ -98,7 +104,15 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(false)
                 /*.logoutSuccessUrl("/login?logSucc=true")*/
                 .deleteCookies("JSESSIONID")
-                .permitAll();
+                .permitAll()
+            .and()
+                .sessionManagement()
+        		.maximumSessions(1)
+        		.expiredUrl("/expiredSession")
+        		.maxSessionsPreventsLogin(true)
+        		.sessionRegistry(sessionRegistry());
+        
+        http.addFilterAfter(ajaxTimeoutRedirectFilter, ExceptionTranslationFilter.class);
     // @formatter:on
     }
 
@@ -120,6 +134,17 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public SecurityService securityService(){
     	return this.securityService;
+    }
+    
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        SessionRegistry sessionRegistry = new SessionRegistryImpl();
+        return sessionRegistry;
+    }
+    
+    @Bean
+    public static ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
+        return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(new HttpSessionEventPublisher());
     }
     
 }

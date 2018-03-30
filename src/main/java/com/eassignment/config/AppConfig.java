@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.thymeleaf.dialect.springdata.SpringDataDialect;
 
+import com.eassignment.filter.AjaxTimeoutRedirectFilter;
 import com.eassignment.security.ActiveUserStore;
 
 @Configuration
@@ -89,6 +90,11 @@ public class AppConfig {
     @Bean
     public SpringDataDialect springDataDialect() {
         return new SpringDataDialect();
+    }
+    
+    @Bean
+	public AjaxTimeoutRedirectFilter ajaxTimeoutRedirectFilter() {
+		return new AjaxTimeoutRedirectFilter();
     }
     
 }

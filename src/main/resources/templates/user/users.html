@@ -42,17 +42,18 @@
 				formData['enabled'] = userActiveOrInactive;
 				
 				 $.post(contextRoot+"activeOrInactiveUser/"+userId,formData,function(data){
-	     	    		successMsg(data.message);
-		     	    	//console.log(data.message);
+					   console.log("success in userActiveInactive: "+data);
+	     	    	   successMsg(data.message);
 	     	    }).fail(function(data) {
+	     	    	console.log("error in userActiveInactive: "+data.responseJSON.error);
 	     	        if(data.responseJSON.error.indexOf("InternalError") > -1){
 	     	        	errorMsg(data.responseJSON.message);
-	     	        	//console.log(data.responseJSON.message);
-	     	        }else{
+	     	        }else if(data.responseJSON.status==901){
+	     	        	console.log(data.responseJSON.message);
+		     	    }else{
 	     	        	var errors = $.parseJSON(data.responseJSON.message);
 	     	            $.each( errors,function( index,item ){
 	     	                errorMsg(item.defaultMessage);
-	     	            	//console.log(item.defaultMessage);
 	     	            });
 	     	        }
 	     	    });

@@ -42,11 +42,6 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
         
         if (session != null) {
             session.setMaxInactiveInterval(30 * 60); //30 minutes
-            
-            /*User u = userRepository.findByEmail(authentication.getName());
-            LoggedUser user = new LoggedUser(authentication.getName(),u.getFirstName(),u.getLastName(),u.getRoles(),activeUserStore);
-            session.setAttribute("user", user);*/
-            
         }
         
         clearAuthenticationAttributes(request);

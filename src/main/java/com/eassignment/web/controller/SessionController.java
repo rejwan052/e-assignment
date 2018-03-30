@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class InvalidSessionController {
+public class SessionController {
 	
 	@RequestMapping(value="/invalidSession",method=RequestMethod.GET)
 	public String imvalidSession(){
@@ -14,5 +14,10 @@ public class InvalidSessionController {
 		return "/session/invalidSession";
 	}
 	
-	
+	@RequestMapping(value="/expiredSession",method=RequestMethod.GET)
+	public String expiredSession(){
+		
+		
+		return "/session/expiredSession";
+	}
 }
