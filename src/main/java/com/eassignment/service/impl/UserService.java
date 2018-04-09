@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eassignment.Predicates.UserPredicates;
 import com.eassignment.mapper.UserMapper;
 import com.eassignment.persistence.dao.PasswordResetTokenRepository;
 import com.eassignment.persistence.dao.RoleRepository;
@@ -24,11 +23,12 @@ import com.eassignment.persistence.dao.VerificationTokenRepository;
 import com.eassignment.persistence.model.PasswordResetToken;
 import com.eassignment.persistence.model.User;
 import com.eassignment.persistence.model.VerificationToken;
+import com.eassignment.predicates.UserPredicates;
 import com.eassignment.service.IUserService;
 import com.eassignment.web.dto.UserDTO;
 import com.eassignment.web.dto.UserSearchDTO;
 import com.eassignment.web.dto.UserStatusDto;
-import com.eassignment.web.dto.UsersDto;
+import com.eassignment.web.dto.UsersDTO;
 import com.eassignment.web.error.UserAlreadyExistException;
 import com.querydsl.core.types.Predicate;
 
@@ -231,7 +231,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public List<UserStatusDto> registerNewUserAccounts(UsersDto usersDto) {
+	public List<UserStatusDto> registerNewUserAccounts(UsersDTO usersDto) {
 		return null;
 	}
 

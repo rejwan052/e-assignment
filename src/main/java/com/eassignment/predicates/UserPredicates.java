@@ -1,4 +1,4 @@
-package com.eassignment.Predicates;
+package com.eassignment.predicates;
 
 import com.eassignment.persistence.model.QUser;
 import com.querydsl.core.BooleanBuilder;

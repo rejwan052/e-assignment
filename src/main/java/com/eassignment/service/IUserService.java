@@ -11,7 +11,7 @@ import com.eassignment.persistence.model.VerificationToken;
 import com.eassignment.web.dto.UserDTO;
 import com.eassignment.web.dto.UserSearchDTO;
 import com.eassignment.web.dto.UserStatusDto;
-import com.eassignment.web.dto.UsersDto;
+import com.eassignment.web.dto.UsersDTO;
 import com.eassignment.web.error.UserAlreadyExistException;
 
 public interface IUserService {
@@ -22,7 +22,7 @@ public interface IUserService {
 	
     User registerNewUserAccount(UserDTO accountDto) throws UserAlreadyExistException;
     
-    List<UserStatusDto> registerNewUserAccounts(UsersDto usersDto);
+    List<UserStatusDto> registerNewUserAccounts(UsersDTO usersDto);
 
     User getUser(String verificationToken);
 

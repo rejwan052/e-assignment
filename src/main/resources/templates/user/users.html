@@ -21,7 +21,9 @@
 		
 		<style type="text/css">
 			/* page specific css */
-			
+			.verticalLine {
+			  border-left: thick solid #ff0000;
+			}
 		</style>
 		<script th:inline="javascript">
 		/*<![CDATA[*/
@@ -82,6 +84,12 @@
 
 			<ul class="panel-info">
 				<li>
+					<div class="num cyan-600">
+						<a th:href="@{/createUser}"><i class="icon wb-user-add"></i></a>
+					</div>
+					<p>Add User</p>
+				</li>
+				<li class="verticalLine pl-35">
 					<div class="num blue-600">23</div>
 					<p>Users</p>
 				</li>

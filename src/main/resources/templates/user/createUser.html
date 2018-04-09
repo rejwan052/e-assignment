@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" 
+	layout:decorate="~{layouts/main}">
+<head>
+<meta charset="UTF-8">
+<title>e-assignment | Add User</title>
+</head>
+<body>
+
+	<th:block layout:fragment="~{page-specific-css-script}">
+		<link th:href="@{assets/global/vendor/selectize/css/selectize.default.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{assets/global/vendor/selectize/css/selectize.bootstrap3.css}" rel="stylesheet" type="text/css" />
+        <script th:src="@{assets/global/vendor/selectize/js/standalone/selectize.js}"></script>
+		<style type="text/css">
+		
+		</style>
+		
+		<script th:inline="javascript">
+		var serverContext = [[@{/}]];
+
+			(function($){
+
+				var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
+			    '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
+
+			$('#select-to')
+			    .selectize({
+			        persist: false,
+			        delimiter: ',',
+			        plugins: ['remove_button'],
+			        maxItems: null,
+			        valueField: 'email',
+			        labelField: 'name',
+			        searchField: ['name', 'email'],
+			        options: [],
+			        render: {
+			            item: function(item, escape) {
+			                return '<div>' +(item.name ? '<span class="name">' + escape(item.name) + '</span>' :'') +
+			                		(item.email ? '<span class="email">' + escape(item.email) +'</span>' :'') +
+			                    	'</div>';
+			            },
+			            option: function(item, escape) {
+			                var label = item.name || item.email;
+			                var caption = item.name ? item.email : null;
+			                return '<div>' +
+			                		 '<span class="label">' + escape(label) + '</span>' +(caption ? '<span class="caption">' + escape(caption) +'</span>' :'') +
+			                       '</div>';
+			            }
+			        },
+			        createFilter: function(input) {
+			            var match, regex;
+
+			            // email@address.com
+			            regex = new RegExp('^' + REGEX_EMAIL + '$', 'i');
+			            match = input.match(regex);
+			            if (match)
+			                return !this.options
+			                    .hasOwnProperty(match[0]);
+
+			            // name <email@address.com>
+			            regex = new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i');
+			            match = input.match(regex);
+			            if (match)
+			                return !this.options
+			                    .hasOwnProperty(match[2]);
+
+			            return false;
+			        },
+			        create: function(input) {
+			            if ((new RegExp('^' + REGEX_EMAIL +'$', 'i')).test(input)) {
+			                return {
+			                    email: input
+			                };
+			            }
+			            var match = input.match(new RegExp('^([^<]*)\<' + REGEX_EMAIL +'\>$', 'i'));
+			            if (match) {
+			                return {
+			                    email: match[2],
+			                    name: $.trim(match[1])
+			                };
+			            }
+			            console.log('Invalid email address.');
+			            return false;
+			        }
+			    });
+		    
+				$('#select-role').selectize({
+				});
+			 }(jQuery));
+			 
+		</script>
+		
+	</th:block>
+	
+	
+	<div class="panel" layout:fragment="~{page-content}">
+
+        <div class="panel-body container-fluid">
+          <div class="row row-lg">
+          
+            <div class="col-md-12">
+              <!-- Example Basic Form (Form grid) -->
+              <div class="example-wrap">
+                <h4 class="example-title">Create User</h4>
+                <div class="example">
+                  <form autocomplete="off" id="createUsersForm" th:object="${usersDto}">
+                    <div class="row">
+                      <div class="form-group form-material col-md-8">
+                      <label class="form-control-label" for="select-to">Email Addresses</label>
+                      <input id="select-to" th:field="*{emails}" class="form-control contacts" name="emails[]" placeholder="Write email..." autocomplete="off" type="email">
+                      </div>
+                      <div class="form-group form-material col-md-4">
+                        <label class="form-control-label" for="select-role">Role</label>
+						<select id="select-role" th:field="*{roles}" placeholder="Select a role...">
+							<option th:each="role : *{roles}" th:value="${role.id}" th:text="${role.name}">Role</option>
+						</select>
+                      </div>
+                    </div>
+                    <div class="form-group form-material">
+                      <button type="button" class="btn btn-primary btn-outline">Create User</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <!-- End Example Basic Form -->
+            </div>
+
+            
+          </div>
+        </div>
+          
+    </div>
+        
+</body>
+</html>

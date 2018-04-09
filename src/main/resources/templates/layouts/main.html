@@ -417,10 +417,16 @@
 	                  <span class="site-menu-title">Home</span>
 	              </a>
               </li> -->
-              <li th:class="${controllerName == 'Admin'} ? 'site-menu-item active' : 'site-menu-item'" >
+              <li th:class="${actionName == 'usersPage'} ? 'site-menu-item active' : 'site-menu-item'" >
                 <a th:href="@{/users}" data-dropdown-toggle="false">
                   <i class="site-menu-icon icon wb-users" aria-hidden="true"></i>
                   <span class="site-menu-title">Users</span>
+                </a>
+              </li>
+               <li th:class="${actionName == 'createUserPage'} ? 'site-menu-item active' : 'site-menu-item'" >
+                <a th:href="@{/createUser}" data-dropdown-toggle="false">
+                  <i class="site-menu-icon icon wb-user-add" aria-hidden="true"></i>
+                  <span class="site-menu-title">Add User</span>
                 </a>
               </li>
             </ul>

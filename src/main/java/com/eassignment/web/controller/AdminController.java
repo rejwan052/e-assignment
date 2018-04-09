@@ -3,7 +3,6 @@ package com.eassignment.web.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
@@ -29,11 +28,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.eassignment.authentication.IAuthenticationFacade;
 import com.eassignment.persistence.model.ImageEntity;
-import com.eassignment.persistence.model.Role;
 import com.eassignment.persistence.model.User;
 import com.eassignment.service.IImageService;
 import com.eassignment.service.IOrganizationService;
+import com.eassignment.service.IRoleService;
 import com.eassignment.service.IUserService;
+import com.eassignment.web.dto.UsersDTO;
 import com.eassignment.web.util.GenericResponse;
 import com.eassignment.web.util.PageConstantUtils;
 
@@ -59,6 +59,9 @@ public class AdminController extends EAssignmentBaseController {
 	@Autowired
 	private MessageSource messages;
 	
+	@Autowired
+	private IRoleService roleService;
+	
 	/*organizations page controller*/
 	
 	@RequestMapping(value="/organizations",method=RequestMethod.GET)
@@ -78,6 +81,17 @@ public class AdminController extends EAssignmentBaseController {
 		model.addAttribute("page", userService.getUsers(searchTerm,pageable));
 		
 		return PageConstantUtils.USERS;
+	}
+	
+	@RequestMapping(value="/createUser",method=RequestMethod.GET)
+	public String createUserPage(Model model){
+		
+		UsersDTO usersDto = new UsersDTO();
+		usersDto.setRoles(roleService.getAllRoles());
+		
+		model.addAttribute("usersDto",usersDto);
+		
+		return PageConstantUtils.CREATE_USER;
 	}
 	
 	

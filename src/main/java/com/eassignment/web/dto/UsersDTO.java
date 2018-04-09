@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import com.eassignment.persistence.model.Role;
 
-public class UsersDto implements Serializable{
+public class UsersDTO implements Serializable{
 
 	private static final long serialVersionUID = 5945736079040320801L;
 	
