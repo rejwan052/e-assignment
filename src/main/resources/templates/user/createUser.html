@@ -5,7 +5,7 @@
 	layout:decorate="~{layouts/main}">
 <head>
 <meta charset="UTF-8">
-<title>e-assignment | Add User</title>
+<title>e-assignment | Create User</title>
 </head>
 <body>
 
@@ -88,6 +88,41 @@
 		    
 				$('#select-role').selectize({
 				});
+
+				var $form = $('#createUsersForm');
+					$form.on('submit', function(e) {
+				    e.preventDefault();
+				    $.ajax({
+				      url: $form.attr('action'),
+				      type: 'post',
+				      data: $form.serialize(),
+				      dataType : 'json',
+				      success : function(data) {
+							var tblHtml = "";
+							$.each(data, function(index, user) {
+
+								var tblHtmlStatus = user.userCreateOrNot ? "<td><span class='badge badge-success'>Created</span></td></tr>" : "<td><span class='badge badge-danger'>Exist</span></td></tr>";
+								
+								tblHtml += "<tr><td>" + user.email + "</td>";
+								tblHtml += "<td>" + user.roleName + "</td>";
+								tblHtml += tblHtmlStatus;
+							});
+				
+							$("#userCreateResponseModalTable  tbody").html(tblHtml);
+							$("#userCreateResponseModalTable").modal('show');
+						},
+						error : function(data) {
+							var errors = $.parseJSON(data.responseJSON.message);
+							$.each(errors, function(index, item) {
+								errorMsg(item.defaultMessage);
+							});
+						},
+						done : function(e) {
+							console.log("USER CREATE DONE...");
+						}
+				    });
+				  });
+
 			 }(jQuery));
 			 
 		</script>
@@ -105,11 +140,11 @@
               <div class="example-wrap">
                 <h4 class="example-title">Create User</h4>
                 <div class="example">
-                  <form autocomplete="off" id="createUsersForm" th:object="${usersDto}">
+                  <form autocomplete="off" id="createUsersForm" th:action="@{/createUser}" th:object="${usersDto}" method="post">
                     <div class="row">
                       <div class="form-group form-material col-md-8">
                       <label class="form-control-label" for="select-to">Email Addresses</label>
-                      <input id="select-to" th:field="*{emails}" class="form-control contacts" name="emails[]" placeholder="Write email..." autocomplete="off" type="email">
+                      <input id="select-to" th:field="*{emails}" class="form-control contacts" name="emails[]" multiple placeholder="Write email..." autocomplete="off">
                       </div>
                       <div class="form-group form-material col-md-4">
                         <label class="form-control-label" for="select-role">Role</label>
@@ -119,7 +154,7 @@
                       </div>
                     </div>
                     <div class="form-group form-material">
-                      <button type="button" class="btn btn-primary btn-outline">Create User</button>
+                      <button type="submit" class="btn btn-primary btn-outline">Create User</button>
                     </div>
                   </form>
                 </div>
@@ -130,6 +165,41 @@
             
           </div>
         </div>
+        
+        	<!-- User Create Modal -->
+            <div class="modal fade modal-fade-in-scale-up" id="userCreateResponseModalTable" aria-hidden="true"
+              aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1">
+              <div class="modal-dialog modal-simple">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">User Create Response</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="table-responsive">
+                    	<table id="userCreateResponse" class="table">
+						<thead>
+							<tr>
+								<th>Email</th>
+								<th>Role</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							
+						</tbody>
+					</table>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default "	data-dismiss="modal">Ok</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- User Create Modal -->
           
     </div>
         

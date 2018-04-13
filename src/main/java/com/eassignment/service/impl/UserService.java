@@ -1,11 +1,12 @@
 package com.eassignment.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-import org.bouncycastle.crypto.tls.UserMappingType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.eassignment.mapper.UserMapper;
 import com.eassignment.persistence.dao.PasswordResetTokenRepository;
@@ -21,6 +23,7 @@ import com.eassignment.persistence.dao.RoleRepository;
 import com.eassignment.persistence.dao.UserRepository;
 import com.eassignment.persistence.dao.VerificationTokenRepository;
 import com.eassignment.persistence.model.PasswordResetToken;
+import com.eassignment.persistence.model.Role;
 import com.eassignment.persistence.model.User;
 import com.eassignment.persistence.model.VerificationToken;
 import com.eassignment.predicates.UserPredicates;
@@ -232,7 +235,48 @@ public class UserService implements IUserService {
 
 	@Override
 	public List<UserStatusDto> registerNewUserAccounts(UsersDTO usersDto) {
-		return null;
+		List<UserStatusDto> users = null;
+		if (!StringUtils.isEmpty(usersDto.getEmails())) {
+			users = new ArrayList<>();
+			List<String> emailList = Arrays.asList(usersDto.getEmails().split("\\s*,\\s*"));
+			
+			List<User> usersInBatch = new ArrayList<User>();
+			
+			for (String email : emailList) {
+				
+				UserStatusDto usersDtoStatus = new UserStatusDto();
+				usersDtoStatus.setEmail(email);
+				
+				if (!emailExist(email)) {
+					
+					User user = new User();
+					user.setEmail(email);
+					for (Role role : usersDto.getRoles()) {
+						user.setRoles(Arrays.asList(roleRepository.findByName(role.getName())));
+						usersDtoStatus.setRoleName(role.getName());
+					}
+					user.setPassword(passwordEncoder.encode(email));
+					user.setEnabled(true);
+					
+					usersInBatch.add(user);
+					
+					usersDtoStatus.setUserCreateOrNot(true);
+		        }else {
+		        	usersDtoStatus.setRoleName("");
+					usersDtoStatus.setUserCreateOrNot(false);
+				}
+				users.add(usersDtoStatus);
+			}
+			
+			if(usersInBatch.size()>0){
+				long start = System.nanoTime();
+				repository.save(usersInBatch);
+				LOGGER.info("INSERTED {} USERS IN: {} MILISECONDS.",usersInBatch.size(),TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start));     
+			}
+			
+			
+		}
+		return users;
 	}
 
 	@Override

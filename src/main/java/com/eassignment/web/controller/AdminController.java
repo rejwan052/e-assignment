@@ -3,8 +3,11 @@ package com.eassignment.web.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,9 +36,11 @@ import com.eassignment.service.IImageService;
 import com.eassignment.service.IOrganizationService;
 import com.eassignment.service.IRoleService;
 import com.eassignment.service.IUserService;
+import com.eassignment.web.dto.UserStatusDto;
 import com.eassignment.web.dto.UsersDTO;
 import com.eassignment.web.util.GenericResponse;
 import com.eassignment.web.util.PageConstantUtils;
+
 
 
 @Controller
@@ -85,7 +90,7 @@ public class AdminController extends EAssignmentBaseController {
 	
 	@RequestMapping(value="/createUser",method=RequestMethod.GET)
 	public String createUserPage(Model model){
-		
+		LOGGER.info("Create user page called...");
 		UsersDTO usersDto = new UsersDTO();
 		usersDto.setRoles(roleService.getAllRoles());
 		
@@ -94,6 +99,13 @@ public class AdminController extends EAssignmentBaseController {
 		return PageConstantUtils.CREATE_USER;
 	}
 	
+	@RequestMapping(value="/createUser",method=RequestMethod.POST)
+	public @ResponseBody List<UserStatusDto> createUser(@Valid UsersDTO usersDto){
+		LOGGER.info("Create user post called...");
+		List<UserStatusDto> users = userService.registerNewUserAccounts(usersDto);
+    	
+		return users;
+	}
 	
 	@RequestMapping(value="/activeOrInactiveUser/{userId}",method=RequestMethod.POST)
 	@ResponseBody
