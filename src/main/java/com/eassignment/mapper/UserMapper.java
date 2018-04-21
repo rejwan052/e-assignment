@@ -25,8 +25,8 @@ public class UserMapper {
 		UserDTO dto = new UserDTO();
 
 		dto.setId(entity.getId());
-		dto.setFirstName(entity.getFirstName());
-		dto.setLastName(entity.getLastName());
+		dto.setFirstName(null != entity.getFirstName() ? entity.getFirstName(): "");
+		dto.setLastName(null != entity.getLastName() ? entity.getLastName() : "");
 		dto.setEmail(entity.getEmail());
 		dto.setPassword(entity.getPassword());
 		dto.setBloodGroup(entity.getBloodGroup() != null ? entity.getBloodGroup() : " ");

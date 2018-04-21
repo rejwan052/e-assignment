@@ -217,8 +217,8 @@ public class User {
 	@Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("User [id=").append(id).append(", firstName=").append(firstName).append(", lastName=").append(lastName).append(", email=").append(email).append(", password=").append(password).append(", enabled=").append(enabled).append(", tokenExpired=")
-                .append(tokenExpired).append(", accountNonLocked=").append(accountNonLocked).append(", secret=").append(secret).append(", roles=").append(roles).append("]");
+        builder.append("User [id=").append(id).append(", firstName=").append(firstName).append(", lastName=").append(lastName).append(", email=").append(email).append(", gender=").append(gender).append(", bloodGroup=").append(bloodGroup).append(", enabled=")
+                .append(enabled).append(", roles=").append(roles).append("]");
         return builder.toString();
     }
 	

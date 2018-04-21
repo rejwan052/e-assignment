@@ -16,7 +16,6 @@
 		<link th:href="@{/assets/css/pages/user/user.css}" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" th:href="@{assets/global/vendor/bootstrap-toggle/bootstrap-toggle.css}">
 		<link rel="stylesheet" th:href="@{assets/css/apps/work.min.css}">
-		
 		<script th:src="@{assets/global/vendor/bootstrap-toggle/bootstrap-toggle.js}"></script>
 		
 		<style type="text/css">
@@ -60,7 +59,22 @@
 	     	        }
 	     	    });
 			 }
-			  
+
+
+			 function updateUserModal(userId){
+				 	var ajaxURL = contextRoot+"updateUser/"+userId;
+					$.ajax({
+						url:ajaxURL,
+						type: "GET",
+						success:function(result){
+							$("#updateUserModalContent").html(result);
+						},complete:function(){
+				  			$("#updateUserModal").modal({
+				  				
+							});
+						}
+					}); 
+			   }	
 
 		/*]]>*/ 	
 	</script>
@@ -142,7 +156,7 @@
                           </h5>
                           <p>
                           	<i class="icon wb-envelope-open" aria-hidden="true"></i>
-                          	<span th:text="${row?.email}"></span>
+                          	<a href="javascript:void(0);" th:onclick="'updateUserModal(\''+ ${row.id} +'\')'"><span th:text="${row?.email}"></span></a>
                           </p>
                           <p th:if="${not #strings.isEmpty(row.organizationName)}">
                             <i class="icon fa-institution" aria-hidden="true"></i>
@@ -158,11 +172,7 @@
 						  </div>
 						</div>
                         <div class="pl-0 pl-sm-20 mt-15 mt-sm-0 align-self-center">
-                          <!-- <button type="button" th:class="${row.enabled} ? 'btn btn-outline btn-success btn-sm' : 'btn btn-outline btn-danger btn-sm'" th:if="${row.enabled} == true">Active</button>
-                          <button type="button" th:class="${row.enabled} ? 'btn btn-outline btn-success btn-sm' : 'btn btn-outline btn-danger btn-sm'" th:if="${row.enabled} == false">Inactive</button> -->
-                          
                           <input class="toggle-event" th:onchange="'javascript:userActiveInactive(\''+${row.id}+'\',this);'" th:checked="${row.enabled}"  data-toggle="toggle" type="checkbox">
-                          
                         </div>
                       </div>
                     </li>
@@ -190,6 +200,16 @@
               </div>
             </div>
           </div>
+          	<!-- Update User Modal -->
+			<div class="modal fade modal-fade-in-scale-up" id="updateUserModal" aria-hidden="true" role="dialog" tabindex="-1">
+				<div class="modal-dialog modal-simple">
+					<div class="modal-content" id="updateUserModalContent">
+					
+					</div>
+				</div>
+			</div>
+			<!-- Add Student Modal -->
+					
         </div>
         <!-- End Panel -->
 	

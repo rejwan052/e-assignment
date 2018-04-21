@@ -3,12 +3,14 @@ package com.eassignment.web.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.passay.CharacterCharacteristicsRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.eassignment.authentication.IAuthenticationFacade;
 import com.eassignment.persistence.model.ImageEntity;
+import com.eassignment.persistence.model.Role;
 import com.eassignment.persistence.model.User;
 import com.eassignment.service.IImageService;
 import com.eassignment.service.IOrganizationService;
@@ -90,7 +93,7 @@ public class AdminController extends EAssignmentBaseController {
 	
 	@RequestMapping(value="/createUser",method=RequestMethod.GET)
 	public String createUserPage(Model model){
-		LOGGER.info("Create user page called...");
+		
 		UsersDTO usersDto = new UsersDTO();
 		usersDto.setRoles(roleService.getAllRoles());
 		
@@ -101,10 +104,50 @@ public class AdminController extends EAssignmentBaseController {
 	
 	@RequestMapping(value="/createUser",method=RequestMethod.POST)
 	public @ResponseBody List<UserStatusDto> createUser(@Valid UsersDTO usersDto){
-		LOGGER.info("Create user post called...");
+		
 		List<UserStatusDto> users = userService.registerNewUserAccounts(usersDto);
     	
 		return users;
+	}
+	
+	
+	//User account update modal
+	@RequestMapping(value="/updateUser/{userId}",method=RequestMethod.GET)
+	public String updateUserModal(Model model,@PathVariable Long userId){
+		
+		User updateUser = userService.getUserByID(userId);
+		
+		model.addAttribute("updateUser", updateUser);
+		model.addAttribute("roles", roleService.getAllRoles());
+		
+		
+		return PageConstantUtils.UPDATE_USER;
+	}
+	
+	@RequestMapping(value="/updateUser/{id}",method=RequestMethod.POST)
+	@ResponseBody
+	public GenericResponse updateUser(Model model,final Locale locale,
+									  @PathVariable Long id,@RequestParam Map<String, String> reqPar,
+									  @RequestParam("roles") Collection<Role> roles){
+		
+		User updateUser = userService.getUserByID(id);
+		
+		String firstName = reqPar.get("firstName");
+		String lastName = reqPar.get("lastName");	
+		String email = reqPar.get("email");
+		
+		String gender = reqPar.get("gender") ;
+		LOGGER.info("gender "+gender);
+		
+		updateUser.setFirstName(firstName);
+		updateUser.setLastName(lastName);
+		updateUser.setGender(gender.charAt(0));
+		updateUser.setEmail(email);
+		updateUser.setRoles(roles);
+		
+		userService.saveRegisteredUser(updateUser);
+		
+		return new GenericResponse(messages.getMessage("message.userUpdateSucc", null,locale));
 	}
 	
 	@RequestMapping(value="/activeOrInactiveUser/{userId}",method=RequestMethod.POST)

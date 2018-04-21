@@ -227,16 +227,6 @@
   margin-left: 10px;
 }
 
-.app-work .slidePanel-actions {
-  position: absolute;
-  top: 30px;
-  right: 20px;
-}
-
-.app-work .slidePanel-inner {
-  padding: 0 15px;
-}
-
 .app-work .step-info {
   margin-bottom: 30px;
   overflow: hidden;
@@ -373,21 +363,6 @@
 .app-work .ct-series .ct-bar-fill {
   stroke: #f3f7f9;
   stroke-width: 20px;
-}
-
-.app-work .slidePanel-footer {
-  padding: 35px 0;
-  margin-bottom: 20px;
-}
-
-.app-work .slidePanel-footer button {
-  width: 30px;
-  height: 30px;
-  padding: 8px;
-}
-
-.app-work .slidePanel-footer > span {
-  margin-left: 20px;
 }
 
 @media (max-width: 988px) {
