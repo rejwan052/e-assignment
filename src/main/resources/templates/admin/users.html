@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sd="http://io.github.jpenren/sd"
+	layout:decorate="~{layouts/main}">
+	
+<head>
+<meta charset="UTF-8">
+<title>e-assignment | Users</title>
+</head>
+<body class="animsition site-navbar-small page-user">
+	
+	<th:block layout:fragment="~{page-specific-css-script}">
+	
+		<link th:href="@{/assets/css/pages/user/user.css}" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" th:href="@{assets/css/apps/work.min.css}">
+		
+		
+		<style type="text/css">
+			/* page specific css */
+			.verticalLine {
+			  border-left: thick solid #ff0000;
+			}
+		</style>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+			var contextRoot = /*[[@{/}]]*/ '';
+
+			function updateUserModal(userId){
+					var ajaxURL = contextRoot+"updateUser/"+userId;
+					$.ajax({
+						url:ajaxURL,
+						type: "GET",
+						success:function(result){
+							$("#updateUserModalContent").html(result);
+						},complete:function(){
+				  			$("#updateUserModal").modal({
+				  				
+							});
+						}
+					}); 
+			   }	
+
+		/*]]>*/ 	
+	</script>
+		
+	</th:block>
+	
+		
+		<!-- Panel -->
+        <div class="panel app-work" layout:fragment="~{page-content}">
+
+		<div class="panel-heading">
+			<h3 class="panel-title">User List</h3>
+			
+			<form name="searchUser" class="panel-search-form" th:action="@{/users}" role="search">
+				<div class="input-search">
+					<i class="input-search-icon md-search" aria-hidden="true"></i> 
+					<input class="form-control" id="searchTerm" name="searchTerm" placeholder="Search User" type="text">
+					<a href="javascript:document.searchUser.submit()"><i class="icon md-refresh"></i></a>
+				</div>
+			</form>
+
+			<ul class="panel-info">
+				<li>
+					<div class="num cyan-600">
+						<a th:href="@{/createUser}"><i class="icon wb-user-add"></i></a>
+					</div>
+					<p>Add User</p>
+				</li>
+				<li class="verticalLine pl-35">
+					<div class="num blue-600">23</div>
+					<p>Users</p>
+				</li>
+				<li>
+					<div class="num orange-600">8</div>
+					<p>Teachers</p>
+				</li>
+				<li>
+					<div class="num green-600">5</div>
+					<p>Students</p>
+				</li>
+			</ul>
+		</div>
+
+        <!-- User Fragment -->
+		<div class="panel-body" id="userFragment">
+			<th:block th:insert="fragments/admin/users :: users"></th:block>
+		</div>
+		<!-- User Fragment -->  	
+          	
+        <!-- Update User Modal -->
+		<div class="modal fade example-modal-lg" id="updateUserModal" aria-hidden="true" role="dialog" tabindex="-1">
+			<div class="modal-dialog modal-simple modal-lg">
+				<div class="modal-content" id="updateUserModalContent">
+				
+				</div>
+			</div>
+		</div>
+		<!-- Add Student Modal -->
+					
+        </div>
+        <!-- End Panel -->
+	
+</body>
+</html>

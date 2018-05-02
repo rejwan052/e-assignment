@@ -26,7 +26,17 @@
      			updateUser(event);
      		});
      		
-     	});
+     	 });
+
+		 function getParameterByName(name, url) {
+			    if (!url) url = window.location.href;
+			    name = name.replace(/[\[\]]/g, "\\$&");
+			    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			        results = regex.exec(url);
+			    if (!results) return null;
+			    if (!results[2]) return '';
+			    return decodeURIComponent(results[2].replace(/\+/g, " "));
+		  }
 
      	 function updateUser(event){
      		
@@ -36,7 +46,15 @@
      	    var id = $("#id").val();
      	    
      	    $.post(contextRoot+"updateUser/"+id,formData,function(data){
-				
+         	    var isFragment = true;
+         	   	var page = getParameterByName('page');
+         	   	console.log('selected page :'+page);
+     	    	var url = contextRoot+'users?isFragment='+isFragment;
+     	    	if(page){
+     	    		url = url+'&page='+page
+     	    	}
+     	    	$("#userFragment").load(url);
+     	    	
 				$('#updateUserModal').modal('hide');
 				$('.modal-backdrop').remove();
 				$('.modal-content', this).empty();
@@ -110,6 +128,22 @@
 	                          <div class="radio-custom radio-default radio-inline">
 	                            <input type="radio" th:field="*{gender}" id="inputBasicFemale" name="inputGender" value="F" />
 	                            <label for="inputBasicFemale">Female</label>
+	                          </div>
+	                        </div>
+						</div>
+					</div>
+					
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="form-control-label">Account Status</label>
+	                        <div>
+	                          <div class="radio-custom radio-default radio-inline">
+	                            <input type="radio" th:field="*{enabled}" id="inputBasicActive" name="enabled" value="true" />
+	                            <label for="inputBasicActive">Active</label>
+	                          </div>
+	                          <div class="radio-custom radio-default radio-inline">
+	                            <input type="radio" th:field="*{enabled}" id="inputBasicInactive" name="enabled" value="false" />
+	                            <label for="inputBasicInactive">Inactive</label>
 	                          </div>
 	                        </div>
 						</div>

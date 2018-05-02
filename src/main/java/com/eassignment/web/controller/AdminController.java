@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -80,15 +81,21 @@ public class AdminController extends EAssignmentBaseController {
 		return PageConstantUtils.ORGANIZATIONS;
 	}
 	
-	/*e-learning all user page controller*/
+	/*e-assignment all user page controller*/
 	
 	@RequestMapping(value="/users",method=RequestMethod.GET)
-	public String usersPage(Model model,@RequestParam(value = "searchTerm", required=false) 
-							String searchTerm,@SortDefault("email") Pageable pageable){
+	public String usersPage(Model model,@RequestParam(value = "searchTerm", required=false) String searchTerm,
+							@RequestParam(value = "isFragment", required = false) Boolean isFragment,
+							@SortDefault("email") @PageableDefault(size=10) Pageable pageable){
 		
 		model.addAttribute("page", userService.getUsers(searchTerm,pageable));
 		
-		return PageConstantUtils.USERS;
+		
+		if(null!=isFragment && isFragment){
+			return PageConstantUtils.USER_FRAGMENT.toString();
+		}else{
+			return PageConstantUtils.USERS;
+		}
 	}
 	
 	@RequestMapping(value="/createUser",method=RequestMethod.GET)
@@ -138,6 +145,10 @@ public class AdminController extends EAssignmentBaseController {
 		
 		String gender = reqPar.get("gender") ;
 		LOGGER.info("gender "+gender);
+		
+		Boolean active = Boolean.valueOf(reqPar.get("enabled"));
+		boolean accountIsEnabledOrNot = active.booleanValue();
+		updateUser.setEnabled(accountIsEnabledOrNot);
 		
 		updateUser.setFirstName(firstName);
 		updateUser.setLastName(lastName);

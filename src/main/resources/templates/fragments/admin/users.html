@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+</head>
+<body>
+	<div th:fragment="users" th:remove="tag">
+            <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
+              
+              <div class="dropdown page-user-sortlist" style="top:0">
+                Order By: <a class="dropdown-toggle inline-block" data-toggle="dropdown"
+                  href="#" aria-expanded="false">Last Active</a>
+                <div class="dropdown-menu animation-scale-up animation-top-right animation-duration-250"
+                  role="menu">
+                  <a class="active dropdown-item sorted" sd:pagination-sort="email">Email</a>
+                  <a class="dropdown-item sorted" sd:pagination-sort="firstName">First Name</a>
+                  <a class="dropdown-item sorted" sd:pagination-sort="enabled">Active</a>
+                  <a class="dropdown-item sorted" sd:pagination-sort="organization">Organization</a>
+                </div>
+              </div>
+			 
+              <div class="tab-content">
+                
+                <div class="tab-pane animation-fade active" id="users" role="tabpanel">
+                  <ul class="list-group">
+                    
+                    <li class="list-group-item" th:each="row : ${page}">
+                    
+                      <div class="media">
+                        <div class="pr-0 pr-sm-20 align-self-center">
+                          <div class="avatar avatar-online">
+                            <!-- <img th:src="@{'/avatar/'+${row.id}}" alt="..." /> -->
+                            <img th:src="*{'data:image/png;base64,'+row?.image}" alt="..." > 
+                            <i class="avatar avatar-busy"></i>
+                          </div>
+                        </div>
+                        <div class="media-body align-self-center">
+                          <h5 class="mt-0 mb-5">
+                          	<strong th:text="${row?.firstName+' '+row?.lastName}"></strong>
+                          	<span class="badge badge-primary" th:text="${#strings.listJoin(#messages.listMsg(row.roles), ',')}"></span>
+                          </h5>
+                          <p>
+                          	<i class="icon wb-envelope-open" aria-hidden="true"></i>
+                          	<a href="javascript:void(0);" th:onclick="'updateUserModal(\''+ ${row.id} +'\')'"><span th:text="${row?.email}"></span></a>
+                          </p>
+                          <p th:if="${not #strings.isEmpty(row.organizationName)}">
+                            <i class="icon fa-institution" aria-hidden="true"></i>
+                            <span th:text="${row?.organizationName}"></span>
+                          </p>
+						  <div>
+								<a class="text-action" href="javascript:void(0)"> 
+									<i th:if="${#strings.containsIgnoreCase(row.gender,'F')}" class="icon fa-female" aria-hidden="true"></i>
+									<i th:if="${#strings.containsIgnoreCase(row.gender,'M')}" class="icon fa-male" aria-hidden="true"></i>
+								</a> 
+								<i th:if="${not #strings.isEmpty(row.bloodGroup)}" class="icon fa-tint" aria-hidden="true"></i>
+								<span th:text="${row?.bloodGroup}"></span>
+						  </div>
+						</div>
+                        <div class="pl-0 pl-sm-20 mt-15 mt-sm-0 align-self-center">
+                    		<span class="badge badge-outline badge-lg" th:classappend="${row.enabled} ? badge-primary : badge-danger" th:text="${row.enabled} ? Active : Inactive">Primary</span>
+                        </div>
+                      </div>
+                    </li>
+                   
+                  </ul>
+                  <nav>
+                    <div class="row">
+					    <div class="col-sm-6">
+					    	<div sd:pagination-summary="">info</div>
+					    </div>
+					    <div class="col-sm-6">
+					    	<nav class="pull-right">
+							<ul class="pagination" sd:pagination="full" sd:pagination-url="@{/users}">
+								<!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+								<li class="disabled">
+									<a href="#" aria-label="Previous">
+										<span aria-hidden="true">&laquo;</span>
+									</a>
+								</li>
+							   	<li class="active">
+							   		<a href="#">1 
+							   			<span class="sr-only">(current)</span>
+							   		</a>
+							   	</li>
+							</ul>
+						</nav>
+					    </div>
+					</div>
+                  </nav>
+                  
+                  
+                </div>
+              </div>
+            </div>
+	</div>
+</body>
+</html>
