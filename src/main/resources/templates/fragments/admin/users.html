@@ -37,7 +37,12 @@
                         <div class="media-body align-self-center">
                           <h5 class="mt-0 mb-5">
                           	<strong th:text="${row?.firstName+' '+row?.lastName}"></strong>
-                          	<span class="badge badge-primary" th:text="${#strings.listJoin(#messages.listMsg(row.roles), ',')}"></span>
+                          	<span class="badge" 
+                          	th:classappend="|${#strings.equalsIgnoreCase(#strings.listJoin(#messages.listMsg(row.roles), ','), 'STUDENT') ? 'badge-primary' : ''} 
+                          					${#strings.equalsIgnoreCase(#strings.listJoin(#messages.listMsg(row.roles), ','), 'TEACHER') ? 'badge-success' : ''} 
+                          					${#strings.equalsIgnoreCase(#strings.listJoin(#messages.listMsg(row.roles), ','), 'ADMIN') ? 'badge-danger' : ''}|"
+                          	
+                          	th:text="${#strings.listJoin(#messages.listMsg(row.roles), ',')}"></span>
                           </h5>
                           <p>
                           	<i class="icon wb-envelope-open" aria-hidden="true"></i>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+</head>
+<body>
+	<div th:fragment="userInfo" th:remove="tag">
+		<h3 class="panel-title">User List</h3>
+			
+			<form name="searchUser" class="panel-search-form" th:action="@{/users}" role="search">
+				<div class="input-search">
+					<i class="input-search-icon md-search" aria-hidden="true"></i> 
+					<input class="form-control" id="searchTerm" name="searchTerm" placeholder="Search User" type="text">
+					<a href="javascript:document.searchUser.submit()"><i class="icon md-refresh"></i></a>
+				</div>
+			</form>
+
+			<ul class="panel-info">
+				<li>
+					<div class="num cyan-600">
+						<a th:href="@{/createUser}"><i class="icon wb-user-add"></i></a>
+					</div>
+					<p>Add User</p>
+				</li>
+				<li class="verticalLine pl-35">
+					<div class="num blue-600" th:utext="${userInfo.totalUser}">23</div>
+					<p>Users</p>
+				</li>
+				<li>
+					<div class="num orange-600" th:utext="${userInfo.totalTeacher}">8</div>
+					<p>Teachers</p>
+				</li>
+				<li>
+					<div class="num green-600" th:utext="${userInfo.totalStudent}">5</div>
+					<p>Students</p>
+				</li>
+			</ul>
+	</div>
+</body>
+</html>

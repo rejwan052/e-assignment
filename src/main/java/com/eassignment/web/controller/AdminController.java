@@ -36,12 +36,14 @@ import com.eassignment.authentication.IAuthenticationFacade;
 import com.eassignment.persistence.model.ImageEntity;
 import com.eassignment.persistence.model.Role;
 import com.eassignment.persistence.model.User;
+import com.eassignment.service.IDashboardService;
 import com.eassignment.service.IImageService;
 import com.eassignment.service.IOrganizationService;
 import com.eassignment.service.IRoleService;
 import com.eassignment.service.IUserService;
 import com.eassignment.web.dto.UserStatusDto;
 import com.eassignment.web.dto.UsersDTO;
+import com.eassignment.web.error.UserAlreadyExistException;
 import com.eassignment.web.util.GenericResponse;
 import com.eassignment.web.util.PageConstantUtils;
 
@@ -71,6 +73,9 @@ public class AdminController extends EAssignmentBaseController {
 	@Autowired
 	private IRoleService roleService;
 	
+	@Autowired
+	private IDashboardService dashboardService;
+	
 	/*organizations page controller*/
 	
 	@RequestMapping(value="/organizations",method=RequestMethod.GET)
@@ -89,13 +94,21 @@ public class AdminController extends EAssignmentBaseController {
 							@SortDefault("email") @PageableDefault(size=10) Pageable pageable){
 		
 		model.addAttribute("page", userService.getUsers(searchTerm,pageable));
-		
+		model.addAttribute("userInfo", dashboardService.getEassignmentUserInformation());
 		
 		if(null!=isFragment && isFragment){
 			return PageConstantUtils.USER_FRAGMENT.toString();
 		}else{
 			return PageConstantUtils.USERS;
 		}
+	}
+	
+	@RequestMapping(value="/userInfo",method=RequestMethod.GET)
+	public String userInfoFragment(Model model){
+		
+		model.addAttribute("userInfo", dashboardService.getEassignmentUserInformation());
+		
+		return PageConstantUtils.USER_INFO_FRAGMENT.toString();
 	}
 	
 	@RequestMapping(value="/createUser",method=RequestMethod.GET)
@@ -138,27 +151,33 @@ public class AdminController extends EAssignmentBaseController {
 									  @RequestParam("roles") Collection<Role> roles){
 		
 		User updateUser = userService.getUserByID(id);
+		String changedEmail = reqPar.get("email");
 		
-		String firstName = reqPar.get("firstName");
-		String lastName = reqPar.get("lastName");	
-		String email = reqPar.get("email");
+		if(userService.checkUserNameModifiable(updateUser.getEmail(), changedEmail)){
+			
+			String firstName = reqPar.get("firstName");
+			String lastName = reqPar.get("lastName");	
+			String gender = reqPar.get("gender") ;
+			
+			Boolean active = Boolean.valueOf(reqPar.get("enabled"));
+			boolean accountIsEnabledOrNot = active.booleanValue();
+			updateUser.setEnabled(accountIsEnabledOrNot);
+			
+			updateUser.setFirstName(firstName);
+			updateUser.setLastName(lastName);
+			updateUser.setGender(gender.charAt(0));
+			updateUser.setEmail(changedEmail);
+			updateUser.setRoles(roles);
+			
+			userService.saveRegisteredUser(updateUser);
 		
-		String gender = reqPar.get("gender") ;
-		LOGGER.info("gender "+gender);
-		
-		Boolean active = Boolean.valueOf(reqPar.get("enabled"));
-		boolean accountIsEnabledOrNot = active.booleanValue();
-		updateUser.setEnabled(accountIsEnabledOrNot);
-		
-		updateUser.setFirstName(firstName);
-		updateUser.setLastName(lastName);
-		updateUser.setGender(gender.charAt(0));
-		updateUser.setEmail(email);
-		updateUser.setRoles(roles);
-		
-		userService.saveRegisteredUser(updateUser);
-		
-		return new GenericResponse(messages.getMessage("message.userUpdateSucc", null,locale));
+			return new GenericResponse(messages.getMessage("message.userUpdateSucc", null,locale));
+			
+		}else{
+			
+			throw new UserAlreadyExistException("There is an account with that email adress " + changedEmail);
+			
+		}
 	}
 	
 	@RequestMapping(value="/activeOrInactiveUser/{userId}",method=RequestMethod.POST)

@@ -70,5 +70,8 @@ public interface IUserService {
     List<User> getAllUsers();
     
     Page<UserDTO> getUsers(String searchTerm,Pageable pageable);
+    
+    boolean checkUserNameModifiable(String currentUsername,String changedUserName);
+    
 }
 

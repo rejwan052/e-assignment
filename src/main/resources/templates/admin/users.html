@@ -51,37 +51,8 @@
 		<!-- Panel -->
         <div class="panel app-work" layout:fragment="~{page-content}">
 
-		<div class="panel-heading">
-			<h3 class="panel-title">User List</h3>
-			
-			<form name="searchUser" class="panel-search-form" th:action="@{/users}" role="search">
-				<div class="input-search">
-					<i class="input-search-icon md-search" aria-hidden="true"></i> 
-					<input class="form-control" id="searchTerm" name="searchTerm" placeholder="Search User" type="text">
-					<a href="javascript:document.searchUser.submit()"><i class="icon md-refresh"></i></a>
-				</div>
-			</form>
-
-			<ul class="panel-info">
-				<li>
-					<div class="num cyan-600">
-						<a th:href="@{/createUser}"><i class="icon wb-user-add"></i></a>
-					</div>
-					<p>Add User</p>
-				</li>
-				<li class="verticalLine pl-35">
-					<div class="num blue-600">23</div>
-					<p>Users</p>
-				</li>
-				<li>
-					<div class="num orange-600">8</div>
-					<p>Teachers</p>
-				</li>
-				<li>
-					<div class="num green-600">5</div>
-					<p>Students</p>
-				</li>
-			</ul>
+		<div class="panel-heading" id="userInfoFragment">
+			<th:block th:insert="fragments/admin/userInfo :: userInfo"></th:block>
 		</div>
 
         <!-- User Fragment -->

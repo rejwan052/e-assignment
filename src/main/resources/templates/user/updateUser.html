@@ -46,24 +46,31 @@
      	    var id = $("#id").val();
      	    
      	    $.post(contextRoot+"updateUser/"+id,formData,function(data){
-         	    var isFragment = true;
+         	    
+     	    	var userInfoFragmentUrl = contextRoot+'userInfo';
+     	    	$("#userInfoFragment").load(userInfoFragmentUrl);
+     	    	
+     	    	var isFragment = true;
          	   	var page = getParameterByName('page');
-         	   	console.log('selected page :'+page);
      	    	var url = contextRoot+'users?isFragment='+isFragment;
      	    	if(page){
      	    		url = url+'&page='+page
      	    	}
      	    	$("#userFragment").load(url);
      	    	
+     	    	
 				$('#updateUserModal').modal('hide');
 				$('.modal-backdrop').remove();
 				$('.modal-content', this).empty();
-				
      	    	successMsg(data.message);
+     	    	
      	    }).fail(function(data) {
+         	    console.log("Error :::"+data.responseJSON);
      	        if(data.responseJSON.error.indexOf("InternalError") > -1){
      	        	errorMsg(data.responseJSON.message);
-     	        }else{
+     	        }else if(data.responseJSON.error.indexOf("UserAlreadyExist") > -1){
+     	        	errorMsg(data.responseJSON.message);
+         	    }else{
      	        	var errors = $.parseJSON(data.responseJSON.message);
      	            $.each( errors,function( index,item ){
      	                errorMsg(item.defaultMessage);

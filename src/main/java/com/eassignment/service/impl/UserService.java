@@ -309,4 +309,18 @@ public class UserService implements IUserService {
 		return repository.countByRolesName(roleName);
 	}
 
+	@Override
+	public boolean checkUserNameModifiable(String currentUsername, String changedUserName) {
+		
+		boolean isUserNameModifiable = false;
+		
+		if(changedUserName.equalsIgnoreCase(currentUsername)){
+			isUserNameModifiable = true;
+		}else if(!emailExist(changedUserName)){
+			isUserNameModifiable = true;
+		}
+		
+		return isUserNameModifiable;
+	}
+
 }
