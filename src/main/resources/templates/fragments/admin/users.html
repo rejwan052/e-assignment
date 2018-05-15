@@ -5,6 +5,16 @@
 </head>
 <body>
 	<div th:fragment="users" th:remove="tag">
+			
+			<script type="text/javascript">
+				$(".toggle-event").bootstrapToggle({
+				  on       :   "Active",
+				  off      :   "Inactive",
+				  onstyle  :   "success" ,
+				  offstyle :   "danger"
+				});
+			</script>
+			
             <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
               
               <div class="dropdown page-user-sortlist" style="top:0">
@@ -62,7 +72,8 @@
 						  </div>
 						</div>
                         <div class="pl-0 pl-sm-20 mt-15 mt-sm-0 align-self-center">
-                    		<span class="badge badge-outline badge-lg" th:classappend="${row.enabled} ? badge-primary : badge-danger" th:text="${row.enabled} ? Active : Inactive">Primary</span>
+                    		<!-- <span class="badge badge-outline badge-lg" th:classappend="${row.enabled} ? badge-primary : badge-danger" th:text="${row.enabled} ? Active : Inactive">Primary</span> -->
+                    		<input class="toggle-event" th:onchange="'javascript:userActiveInactive(\''+${row.id}+'\',this);'" th:checked="${row.enabled}" data-toggle="toggle" type="checkbox">
                         </div>
                       </div>
                     </li>

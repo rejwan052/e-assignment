@@ -52,10 +52,14 @@
      	    	
      	    	var isFragment = true;
          	   	var page = getParameterByName('page');
+         	   	var searchTerm = getParameterByName('searchTerm');
      	    	var url = contextRoot+'users?isFragment='+isFragment;
      	    	if(page){
      	    		url = url+'&page='+page
      	    	}
+     	    	if(searchTerm){
+     	    		url = url+'&searchTerm='+searchTerm;
+         	    }
      	    	$("#userFragment").load(url);
      	    	
      	    	

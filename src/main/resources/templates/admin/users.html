@@ -16,6 +16,8 @@
 		<link th:href="@{/assets/css/pages/user/user.css}" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" th:href="@{assets/css/apps/work.min.css}">
 		
+		<link rel="stylesheet" th:href="@{assets/global/vendor/bootstrap-toggle/bootstrap-toggle.css}">
+-		<script th:src="@{assets/global/vendor/bootstrap-toggle/bootstrap-toggle.js}"></script>
 		
 		<style type="text/css">
 			/* page specific css */
@@ -26,7 +28,39 @@
 		<script th:inline="javascript">
 		/*<![CDATA[*/
 			var contextRoot = /*[[@{/}]]*/ '';
-
+			
+			$(".toggle-event").bootstrapToggle({
+				  on       :   "Active",
+				  off      :   "Inactive",
+				  onstyle  :   "success" ,
+				  offstyle :   "danger"
+			});
+			
+			function userActiveInactive(userId,check) {
+				 
+				var userActiveOrInactive = $(check).prop('checked');
+				
+				var formData = {};
+				formData['enabled'] = userActiveOrInactive;
+				
+				 $.post(contextRoot+"activeOrInactiveUser/"+userId,formData,function(data){
+					   console.log("success in userActiveInactive: "+data);
+	     	    	   successMsg(data.message);
+	     	    }).fail(function(data) {
+	     	    	console.log("error in userActiveInactive: "+data.responseJSON.error);
+	     	        if(data.responseJSON.error.indexOf("InternalError") > -1){
+	     	        	errorMsg(data.responseJSON.message);
+	     	        }else if(data.responseJSON.status==901){
+	     	        	console.log(data.responseJSON.message);
+		     	    }else{
+	     	        	var errors = $.parseJSON(data.responseJSON.message);
+	     	            $.each( errors,function( index,item ){
+	     	                errorMsg(item.defaultMessage);
+	     	            });
+	     	        }
+	     	    });
+			 }
+			 
 			function updateUserModal(userId){
 					var ajaxURL = contextRoot+"updateUser/"+userId;
 					$.ajax({
