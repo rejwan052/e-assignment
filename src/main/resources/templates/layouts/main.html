@@ -40,7 +40,7 @@
     <link rel="stylesheet" th:href="@{assets/global/vendor/jquery-selective/jquery-selective.css}">
     <link rel="stylesheet" th:href="@{assets/global/vendor/bootstrap-datepicker/bootstrap-datepicker.css}">
     <link rel="stylesheet" th:href="@{assets/css/pages/dashboard/team.min.css}">
-    
+    <link rel="stylesheet" th:href="@{assets/global/vendor/bootstrap-toggle/bootstrap-toggle.css}">
     
     <!-- Fonts -->
     <link rel="stylesheet" th:href="@{assets/global/fonts/font-awesome/font-awesome.min.css}">
@@ -506,6 +506,7 @@
     <script th:src="@{assets/global/vendor/jquery-selective/jquery-selective.min.js}"></script>
     <script th:src="@{assets/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js}"></script>
     <script th:src="@{assets/global/vendor/bootstrap-notify/bootstrap-notify.js}"></script>
+    <script th:src="@{assets/global/vendor/bootstrap-toggle/bootstrap-toggle.js}"></script>
     
     <!-- Scripts -->
     <script th:src="@{assets/global/js/Component.js}"></script>
@@ -539,6 +540,14 @@
 	
 	<script th:inline="javascript">
 	/*<![CDATA[*/
+	
+	
+	$(".toggle-event").bootstrapToggle({
+		  on       :   "Active",
+		  off      :   "Inactive",
+		  onstyle  :   "success" ,
+		  offstyle :   "danger"
+	});
 	         
 	var serverContext = [[@{/}]];
 

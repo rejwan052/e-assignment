@@ -16,9 +16,6 @@
 		<link th:href="@{/assets/css/pages/user/user.css}" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" th:href="@{assets/css/apps/work.min.css}">
 		
-		<link rel="stylesheet" th:href="@{assets/global/vendor/bootstrap-toggle/bootstrap-toggle.css}">
--		<script th:src="@{assets/global/vendor/bootstrap-toggle/bootstrap-toggle.js}"></script>
-		
 		<style type="text/css">
 			/* page specific css */
 			.verticalLine {
@@ -28,13 +25,6 @@
 		<script th:inline="javascript">
 		/*<![CDATA[*/
 			var contextRoot = /*[[@{/}]]*/ '';
-			
-			$(".toggle-event").bootstrapToggle({
-				  on       :   "Active",
-				  off      :   "Inactive",
-				  onstyle  :   "success" ,
-				  offstyle :   "danger"
-			});
 			
 			function userActiveInactive(userId,check) {
 				 

@@ -6,14 +6,18 @@
 <body>
 	<div th:fragment="users" th:remove="tag">
 			
-			<script type="text/javascript">
-				$(".toggle-event").bootstrapToggle({
-				  on       :   "Active",
-				  off      :   "Inactive",
-				  onstyle  :   "success" ,
-				  offstyle :   "danger"
-				});
-			</script>
+			<th:block layout:fragment="~{page-specific-css-script}">
+				<script th:inline="javascript">
+				/*<![CDATA[*/
+					$(".toggle-event").bootstrapToggle({
+					  on       :   "Active",
+					  off      :   "Inactive",
+					  onstyle  :   "success" ,
+					  offstyle :   "danger"
+					});
+				/*]]>*/
+				</script>
+			</th:block>
 			
             <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
               
