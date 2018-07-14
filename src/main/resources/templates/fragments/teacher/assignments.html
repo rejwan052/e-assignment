@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+</head>
+<body>
+	<div th:fragment="assignments" th:remove="tag">
+			
+			<table class="table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Session</th>
+                  <th>Status</th>
+                  <th><span data-toggle="tooltip" data-placement="top" title="No. of Assignment Documents" class="fa fa-files-o"></span></th>
+                  <th><span data-toggle="tooltip" data-placement="top" title="No. of Students" class="fa fa-users"></span></th>
+                  <th><span data-toggle="tooltip" data-placement="top" title="Submitted" class="fa fa-upload"></span></th>
+                  <th style="text-align: center;"><span data-toggle="tooltip" data-placement="top" title="Actions" class="icon wb-wrench"></span></th>
+                </tr>
+              </thead>
+              <tbody th:if="${not #lists.isEmpty(page)}">
+                
+                <tr th:each="row : ${page}">
+                
+                	<td class="subject">
+	                    <div class="table-content">
+	                      <p class="blue-grey-500" th:text="${row.title}">title</p>
+	                      <span class="num orange-600" 
+	                      		th:text="${row.submitEndDate} ? ${#calendars.format(row.submitStartDate,'dd MMM yyyy hh:mm a')+' to '+#calendars.format(row.submitEndDate,'dd MMM yyyy hh:mm a')}">
+	                      		Last date of submission
+	                      </span>
+	                    </div>
+                  	</td>
+                  
+                  	<td class="" th:text="${row.session}">session</td>
+                  
+                  	<td class="">
+                  	        <span th:class="${row.status} ? 'badge badge-outline badge-success' : ''" th:if="${row.status} == true">Published</span>
+                  	        <span th:class="${row.status} ? '' : 'badge badge-outline badge-primary'" th:if="${row.status} == false">Saved</span>
+                  	</td>
+                  
+                  	<td class="" th:text="${row.assignmentDocuments}">No. of Assignment Documents</td>
+                  
+                  	<td class="" th:text="${row.totalNumberOfStudent}">No. Of Students</td>
+                  
+                 	<td class="" th:text="${row.totalNumberOfSubmittedStudent}">Submitted</td>
+                  
+                  	<td class="" style="text-align: center;">
+                  	
+                  		<div class="btn-group" role="group">
+	                      <button type="button" class="btn btn-primary dropdown-toggle" id="exampleIconDropdown1" data-toggle="dropdown" aria-expanded="false">
+	                        <i class="icon wb-grid-9" aria-hidden="true"></i>
+	                      </button>
+	                      <div class="dropdown-menu" aria-labelledby="exampleIconDropdown1" role="menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
+	                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+	                        	<i class="fa fa-files-o"></i> Add assignment reference file(s)
+	                        </a>
+	                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+	                        	<i class="fa fa-eye"></i> View assignment student
+	                        </a>
+	                        <a th:if="${row.status}" class="dropdown-item" href="javascript:void(0)" role="menuitem">
+	                        	<i class="fa fa-pencil"></i> Edit assignment
+	                        </a>
+	                        <a th:if="${row.status}" class="dropdown-item" href="javascript:void(0)" role="menuitem">
+	                        	<i class="fa fa-download"></i> Download assignment
+	                        </a>
+	                      </div>
+	                    </div>
+                  	
+                  	</td>
+                  
+                </tr>
+                
+                
+              </tbody>
+            </table>
+			
+	</div>
+</body>
+</html>

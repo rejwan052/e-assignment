@@ -326,7 +326,7 @@ pre {
     border-top-width: 1px
 }
 .table a {
-    text-decoration: underline
+    text-decoration: none;
 }
 .table td>.checkbox-custom:only-child,
 .table th>.checkbox-custom:only-child {

@@ -18,48 +18,47 @@
     <link rel="shortcut icon" th:href="@{assets/images/favicon.ico}">
     
     <!-- Bootstrap and site -->
-    <link rel="stylesheet" th:href="@{assets/css/bootstrap/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{assets/css/bootstrap/bootstrap-extend.min.css}">
-    <link rel="stylesheet" th:href="@{assets/css/site/site.min.css}">
-	<link rel="stylesheet" th:href="@{assets/css/animate/animate.min.css}"  type="text/css" />
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap/bootstrap-extend.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/site/site.min.css}">
+	<link rel="stylesheet" th:href="@{/assets/css/animate/animate.min.css}"  type="text/css" />
 	
     <!-- Site Skin -->
-    <!-- <link rel="stylesheet" th:href="@{assets/skins/cyan.min.css}"> -->
+    <!-- <link rel="stylesheet" th:href="@{/assets/skins/cyan.min.css}"> -->
     
     <!-- Plugins -->
-    <link rel="stylesheet" th:href="@{assets/global/vendor/animsition/animsition.css}">
-    <link rel="stylesheet" th:href="@{assets/global/vendor/asscrollable/asScrollable.css}">
-    <link rel="stylesheet" th:href="@{assets/global/vendor/switchery/switchery.css}">
-    <link rel="stylesheet" th:href="@{assets/global/vendor/intro-js/introjs.css}">
-    <link rel="stylesheet" th:href="@{assets/global/vendor/slidepanel/slidePanel.css}">
-    <link rel="stylesheet" th:href="@{assets/global/vendor/flag-icon-css/flag-icon.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/vendor/animsition/animsition.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/vendor/asscrollable/asScrollable.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/vendor/switchery/switchery.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/vendor/intro-js/introjs.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/vendor/slidepanel/slidePanel.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/vendor/flag-icon-css/flag-icon.css}">
     
-    <link rel="stylesheet" th:href="@{assets/global/vendor/chartist/chartist.css}">
-    <link rel="stylesheet" th:href="@{assets/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css}">
-    <link rel="stylesheet" th:href="@{assets/global/vendor/aspieprogress/asPieProgress.css}">
-    <link rel="stylesheet" th:href="@{assets/global/vendor/jquery-selective/jquery-selective.css}">
-    <link rel="stylesheet" th:href="@{assets/global/vendor/bootstrap-datepicker/bootstrap-datepicker.css}">
-    <link rel="stylesheet" th:href="@{assets/css/pages/dashboard/team.min.css}">
-    <link rel="stylesheet" th:href="@{assets/global/vendor/bootstrap-toggle/bootstrap-toggle.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/vendor/chartist/chartist.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/vendor/aspieprogress/asPieProgress.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/vendor/bootstrap-datepicker/bootstrap-datepicker.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/pages/dashboard/team.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/vendor/bootstrap-toggle/bootstrap-toggle.css}">
     
     <!-- Fonts -->
-    <link rel="stylesheet" th:href="@{assets/global/fonts/font-awesome/font-awesome.min.css}">
-    <link rel="stylesheet" th:href="@{assets/global/fonts/material-design/material-design.min.css}">
-    <link rel="stylesheet" th:href="@{assets/global/fonts/web-icons/web-icons.min.css}">
-    <link rel="stylesheet" th:href="@{assets/global/fonts/brand-icons/brand-icons.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/fonts/font-awesome/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/fonts/material-design/material-design.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/fonts/web-icons/web-icons.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/fonts/brand-icons/brand-icons.min.css}">
     <link rel='stylesheet' th:href='@{http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic}'>
     
     <!--[if lt IE 9]>
-    <script th:src="@{global/vendor/html5shiv/html5shiv.min.js}"></script>
+    <script th:src="@{/global/vendor/html5shiv/html5shiv.min.js}"></script>
     <![endif]-->
     
     <!--[if lt IE 10]>
-    <script th:src="@{global/vendor/media-match/media.match.min.js}"></script>
-    <script th:src="@{global/vendor/respond/respond.min.js}"></script>
+    <script th:src="@{/global/vendor/media-match/media.match.min.js}"></script>
+    <script th:src="@{/global/vendor/respond/respond.min.js}"></script>
     <![endif]-->
     
     <!-- Scripts -->
-    <script th:src="@{assets/global/vendor/breakpoints/breakpoints.js}"></script>
+    <script th:src="@{/assets/global/vendor/breakpoints/breakpoints.js}"></script>
     <script>
       Breakpoints();
     </script>
@@ -387,22 +386,16 @@
             
             <!-- Start Teacher Site Menu -->
             <ul sec:authorize="hasAuthority('TEACHER_PRIVILEGE')" class="site-menu" data-plugin="menu">
-              <!-- <li th:class="${controllerName == 'Home'} ? 'site-menu-item active' : 'site-menu-item'" >
-                  <a th:href="@{home}" data-dropdown-toggle="false">
-	                <i class="site-menu-icon icon wb-home" aria-hidden="true"></i>
-	                  <span class="site-menu-title">Home</span>
-	              </a>
-              </li> -->
-              <li th:class="${controllerName == 'Teacher'} ? 'site-menu-item active' : 'site-menu-item'" >
-                <a href="javascript:void(0)" data-dropdown-toggle="false">
+              <li th:class="${actionName == 'assignments'} ? 'site-menu-item active' : 'site-menu-item'" >
+                <a th:href="@{/teacher/assignments}" data-dropdown-toggle="false">
                   <i class="site-menu-icon icon md-assignment" aria-hidden="true"></i>
-                  <span class="site-menu-title">Assignment</span>
+                  <span class="site-menu-title">Assignments</span>
                 </a>
               </li>
-              <li th:class="${controllerName == 'Teacher'} ? 'site-menu-item active' : 'site-menu-item'" >
+              <li th:class="${actionName == 'groups'} ? 'site-menu-item active' : 'site-menu-item'" >
                 <a href="javascript:void(0)" data-dropdown-toggle="false">
                   <i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
-                  <span class="site-menu-title">Group</span>
+                  <span class="site-menu-title">Groups</span>
                 </a>
               </li>
             </ul>
@@ -486,55 +479,54 @@
     </footer>
     
     <!-- Core  -->
-    <script th:src="@{assets/global/vendor/babel-external-helpers/babel-external-helpers.js}"></script>
-    <script th:src="@{assets/global/vendor/jquery/jquery.js}"></script>
-    <script th:src="@{assets/global/vendor/popper-js/umd/popper.min.js}"></script>
-    <script th:src="@{assets/global/vendor/bootstrap/bootstrap.js}"></script>
-    <script th:src="@{assets/global/vendor/animsition/animsition.js}"></script>
-    <script th:src="@{assets/global/vendor/mousewheel/jquery.mousewheel.js}"></script>
-    <script th:src="@{assets/global/vendor/asscrollbar/jquery-asScrollbar.js}"></script>
-    <script th:src="@{assets/global/vendor/asscrollable/jquery-asScrollable.js}"></script>
+    <script th:src="@{/assets/global/vendor/babel-external-helpers/babel-external-helpers.js}"></script>
+    <script th:src="@{/assets/global/vendor/jquery/jquery.js}"></script>
+    <script th:src="@{/assets/global/vendor/popper-js/umd/popper.min.js}"></script>
+    <script th:src="@{/assets/global/vendor/bootstrap/bootstrap.js}"></script>
+    <script th:src="@{/assets/global/vendor/animsition/animsition.js}"></script>
+    <script th:src="@{/assets/global/vendor/mousewheel/jquery.mousewheel.js}"></script>
+    <script th:src="@{/assets/global/vendor/asscrollbar/jquery-asScrollbar.js}"></script>
+    <script th:src="@{/assets/global/vendor/asscrollable/jquery-asScrollable.js}"></script>
     
     <!-- Plugins -->
-    <script th:src="@{assets/global/vendor/switchery/switchery.js}"></script>
-    <script th:src="@{assets/global/vendor/intro-js/intro.js}"></script>
-    <script th:src="@{assets/global/vendor/screenfull/screenfull.js}"></script>
-    <script th:src="@{assets/global/vendor/chartist/chartist.js}"></script>
-    <script th:src="@{assets/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.js}"></script>
-    <script th:src="@{assets/global/vendor/aspieprogress/jquery-asPieProgress.js}"></script>
-    <script th:src="@{assets/global/vendor/matchheight/jquery.matchHeight-min.js}"></script>
-    <script th:src="@{assets/global/vendor/jquery-selective/jquery-selective.min.js}"></script>
-    <script th:src="@{assets/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js}"></script>
-    <script th:src="@{assets/global/vendor/bootstrap-notify/bootstrap-notify.js}"></script>
-    <script th:src="@{assets/global/vendor/bootstrap-toggle/bootstrap-toggle.js}"></script>
+    <script th:src="@{/assets/global/vendor/switchery/switchery.js}"></script>
+    <script th:src="@{/assets/global/vendor/intro-js/intro.js}"></script>
+    <script th:src="@{/assets/global/vendor/screenfull/screenfull.js}"></script>
+    <script th:src="@{/assets/global/vendor/chartist/chartist.js}"></script>
+    <script th:src="@{/assets/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.js}"></script>
+    <script th:src="@{/assets/global/vendor/aspieprogress/jquery-asPieProgress.js}"></script>
+    <script th:src="@{/assets/global/vendor/matchheight/jquery.matchHeight-min.js}"></script>
+    <script th:src="@{/assets/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js}"></script>
+    <script th:src="@{/assets/global/vendor/bootstrap-notify/bootstrap-notify.js}"></script>
+    <script th:src="@{/assets/global/vendor/bootstrap-toggle/bootstrap-toggle.js}"></script>
     
     <!-- Scripts -->
-    <script th:src="@{assets/global/js/Component.js}"></script>
-    <script th:src="@{assets/global/js/Plugin.js}"></script>
-    <script th:src="@{assets/global/js/Base.js}"></script>
-    <script th:src="@{assets/global/js/Config.js}"></script>
+    <script th:src="@{/assets/global/js/Component.js}"></script>
+    <script th:src="@{/assets/global/js/Plugin.js}"></script>
+    <script th:src="@{/assets/global/js/Base.js}"></script>
+    <script th:src="@{/assets/global/js/Config.js}"></script>
     
-    <script th:src="@{assets/js/Section/Menubar.js}"></script>
-    <script th:src="@{assets/js/Section/Sidebar.js}"></script>
-    <script th:src="@{assets/js/Section/PageAside.js}"></script>
-    <script th:src="@{assets/js/Plugin/menu.js}"></script>
+    <script th:src="@{/assets/js/Section/Menubar.js}"></script>
+    <script th:src="@{/assets/js/Section/Sidebar.js}"></script>
+    <script th:src="@{/assets/js/Section/PageAside.js}"></script>
+    <script th:src="@{/assets/js/Plugin/menu.js}"></script>
     
     <!-- Config -->
-    <script th:src="@{assets/global/js/config/colors.js}"></script>
-    <script th:src="@{assets/js/config/tour.js}"></script>
+    <script th:src="@{/assets/global/js/config/colors.js}"></script>
+    <script th:src="@{/assets/js/config/tour.js}"></script>
     <script>Config.set('assets', '../../assets');</script>
     
     <!-- Page -->
-    <script th:src="@{assets/js/Site.js}"></script>
-    <script th:src="@{assets/global/js/Plugin/asscrollable.js}"></script>
-    <script th:src="@{assets/global/js/Plugin/slidepanel.js}"></script>
-    <script th:src="@{assets/global/js/Plugin/switchery.js}"></script>
-    <script th:src="@{assets/global/js/Plugin/matchheight.js}"></script>
-    <script th:src="@{assets/global/js/Plugin/aspieprogress.js}"></script>
-    <script th:src="@{assets/global/js/Plugin/bootstrap-datepicker.js}"></script>
-    <script th:src="@{assets/js/dashboard/team.js}"></script>
+    <script th:src="@{/assets/js/Site.js}"></script>
+    <script th:src="@{/assets/global/js/Plugin/asscrollable.js}"></script>
+    <script th:src="@{/assets/global/js/Plugin/slidepanel.js}"></script>
+    <script th:src="@{/assets/global/js/Plugin/switchery.js}"></script>
+    <script th:src="@{/assets/global/js/Plugin/matchheight.js}"></script>
+    <script th:src="@{/assets/global/js/Plugin/aspieprogress.js}"></script>
+    <script th:src="@{/assets/global/js/Plugin/bootstrap-datepicker.js}"></script>
+    <script th:src="@{/assets/js/dashboard/team.js}"></script>
     
-    <script th:src="@{assets/js/app/ajaxSessionExpiration.js}"></script>
+    <script th:src="@{/assets/js/app/ajaxSessionExpiration.js}"></script>
         
 	<th:block layout:fragment="~{page-specific-css-script}"></th:block>
 	

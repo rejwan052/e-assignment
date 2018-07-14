@@ -16,8 +16,7 @@ public class UserPredicates {
 		
         if (searchTerm == null || searchTerm.isEmpty()) {
             return b;
-        }
-        else {
+        }else {
         	final String[] parts = searchTerm.split("\\s+");
         	
         	BooleanBuilder firstNameBooleanBuilder = new BooleanBuilder();

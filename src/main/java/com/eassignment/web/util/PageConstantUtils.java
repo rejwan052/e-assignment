@@ -11,5 +11,8 @@ public class PageConstantUtils {
 	public static final String USERS = "admin/users";
 	public static final String USER_FRAGMENT = "fragments/admin/users :: users";
 	public static final String USER_INFO_FRAGMENT = "fragments/admin/userInfo :: userInfo";
+	
+	
+	public static final String ASSIGNMENTS = "teacher/assignments";
 
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+</head>
+<body>
+	<div th:fragment="assignmentInfo" th:remove="tag">
+		<h3 class="panel-title">Assignment List</h3>
+        <form name="searchAssignment" class="panel-search-form" th:action="@{/teacher/assignments}" role="search">
+          <div class="input-search">
+            <i class="input-search-icon wb-search" aria-hidden="true"></i>
+            <input type="text" class="form-control" id="searchTerm" name="searchTerm" placeholder="Search Assignment">
+            <a href="javascript:document.searchAssignment.submit()"><i class="icon wb-loop"></i></a>
+          </div>
+        </form>
+
+        <ul class="panel-info">
+          <li>
+            <div class="num blue-600">23</div>
+            <p>Total</p>
+          </li>
+          <li>
+            <div class="num orange-600">8</div>
+            <p>Published</p>
+          </li>
+          <li>
+            <div class="num green-600">5</div>
+            <p>Saved</p>
+          </li>
+        </ul>
+	</div>
+</body>
+</html>

@@ -71,6 +71,66 @@
           </div>
           <!-- End First Row For Admin -->
           
+          
+          <!-- Start First Row For Teacher -->
+          <div class="col-xl-12 col-lg-12" sec:authorize="hasAuthority('TEACHER_PRIVILEGE')">
+            <div class="row">
+            
+              <div class="col-lg-4">
+                <!-- Card -->
+                <div class="card p-15 flex-row justify-content-between">
+                  <div class="white">
+                    <i class="icon icon-circle icon-2x fa fa-sitemap bg-purple-600" aria-hidden="true"></i>
+                  </div>
+                  <div class="counter counter-md counter text-right">
+                    <div class="counter-number-group">
+                      <span class="counter-number" th:text="${dashboardInfo.totalUser}"> total assignments</span>
+                      <span class="counter-number-related text-capitalize">Total Assignments</span>
+                    </div>
+                    <a th:href="@{/teacher/assignments}" class="btn btn-pure btn-primary icon-2x md-view-list waves-effect waves-classic"></a>
+                  </div>
+                </div>
+                <!-- End Card -->
+              </div>
+
+			  <div class="col-lg-4">
+                <!-- Card -->
+                <div class="card p-15 flex-row justify-content-between">
+                  <div class="white">
+                    <i class="icon icon-circle icon-2x wb-users bg-green-600" aria-hidden="true"></i>
+                  </div>
+                  <div class="counter counter-md counter text-right">
+                    <div class="counter-number-group">
+                      <span class="counter-number" th:text="${dashboardInfo.totalTeacher}"> published</span>
+                      <span class="counter-number-related text-capitalize">Published</span>
+                    </div>
+                    <a th:href="@{/teacher/assignments}" class="btn btn-pure btn-primary icon-2x md-view-list waves-effect waves-classic"></a>
+                  </div>
+                </div>
+                <!-- End Card -->
+              </div>
+			  
+			  <div class="col-lg-4">
+                <!-- Card -->
+                <div class="card p-15 flex-row justify-content-between">
+                  <div class="white">
+                    <i class="icon icon-circle icon-2x wb-users bg-orange-600" aria-hidden="true"></i>
+                  </div>
+                  <div class="counter counter-md counter text-right">
+                    <div class="counter-number-group">
+                      <span class="counter-number" th:text="${dashboardInfo.totalStudent}">saved</span>
+                      <span class="counter-number-related text-capitalize">Saved</span>
+                    </div>
+                    <a th:href="@{/teacher/assignments}" class="btn btn-pure btn-primary icon-2x md-view-list waves-effect waves-classic"></a>
+                  </div>
+                </div>
+                <!-- End Card -->
+              </div>
+			  
+            </div>
+          </div>
+          <!-- End First Row For Teacher -->
+          
           <!-- Start Team Total Completed -->
           <div class="col-xl-12">
             <div id="teamCompletedWidget" class="card card-shadow example-responsive">

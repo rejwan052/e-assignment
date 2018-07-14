@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sd="http://io.github.jpenren/sd"
+	layout:decorate="~{layouts/main}">
+	
+<head>
+<meta charset="UTF-8">
+<title>e-assignment | Assignments</title>
+</head>
+<body class="animsition site-navbar-small app-work">
+	
+	<th:block layout:fragment="~{page-specific-css-script}">
+	
+		<link rel="stylesheet" th:href="@{/assets/css/apps/work.min.css}">
+        
+		<style type="text/css">
+			/* page specific css */
+			
+		</style>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+				
+
+		/*]]>*/ 	
+		</script>
+		
+	</th:block>
+		
+		<!-- Panel -->
+		<div class="panel" layout:fragment="~{page-content}">
+          <div class="panel-heading" id="assignmentInfoFragment">
+            	<th:block th:insert="fragments/teacher/assignmentInfo :: assignmentInfo"></th:block>
+          </div>
+          
+          <div class="panel-body" id="assignmentFragment">
+            	<th:block th:insert="fragments/teacher/assignments :: assignments"></th:block>
+          </div>
+          
+          <div class="panel-footer">
+            <nav>
+              <div class="row">
+				    <div class="col-sm-6">
+				    	<div sd:pagination-summary="">info</div>
+				    </div>
+				    <div class="col-sm-6">
+				    	<nav class="pull-right">
+							<ul class="pagination" sd:pagination="full" sd:pagination-url="@{/teacher/assignments}">
+								<!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+								<li class="disabled">
+									<a href="#" aria-label="Previous">
+										<span aria-hidden="true">&laquo;</span>
+									</a>
+								</li>
+							   	<li class="active">
+							   		<a href="#">1 
+							   			<span class="sr-only">(current)</span>
+							   		</a>
+							   	</li>
+							</ul>
+						</nav>
+				    </div>
+				</div>
+            </nav>
+          </div>
+          
+        </div>
+		
+        <!-- End Panel -->
+	
+</body>
+</html>
