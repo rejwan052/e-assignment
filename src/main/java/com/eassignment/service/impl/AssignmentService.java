@@ -1,5 +1,7 @@
 package com.eassignment.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +21,8 @@ import com.querydsl.core.types.Predicate;
 @Transactional
 public class AssignmentService implements IAssignmentService {
 
+	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private AssignmentRepository assignmentRepository;
 	
@@ -26,6 +30,8 @@ public class AssignmentService implements IAssignmentService {
 	public Page<AssignmentInfoDTO> getUserAssignmentsByTitleOrStatus(User user, String searchTerm,Boolean status,Pageable pageable) {
 		
 		Predicate userAssignmentsPredicate = AssignmentPredicates.getAssignmentsByUserOrTitleOrStatus(user, searchTerm, status);
+		LOGGER.info("assignment search predicate : "+userAssignmentsPredicate);
+		
 		Page<Assignment> assignments = assignmentRepository.findAll(userAssignmentsPredicate,pageable);
 		
 		return AssignmentMapper.mapEntityPageIntoDTOPage(pageable, assignments);
