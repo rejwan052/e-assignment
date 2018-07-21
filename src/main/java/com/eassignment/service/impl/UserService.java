@@ -23,6 +23,7 @@ import com.eassignment.persistence.dao.RoleRepository;
 import com.eassignment.persistence.dao.UserRepository;
 import com.eassignment.persistence.dao.VerificationTokenRepository;
 import com.eassignment.persistence.model.PasswordResetToken;
+import com.eassignment.persistence.model.QUser;
 import com.eassignment.persistence.model.Role;
 import com.eassignment.persistence.model.User;
 import com.eassignment.persistence.model.VerificationToken;
@@ -281,7 +282,12 @@ public class UserService implements IUserService {
 
 	@Override
 	public Iterable<User> searchEmail(String filter) {
-		return null;
+		QUser qUser = QUser.user;
+		Predicate predicate = qUser.email.containsIgnoreCase(filter)
+				   .and(qUser.roles.any().name.eq("ROLE_STUDENT"));
+		
+		
+		return repository.findAll(predicate);
 	}
 
 	@Override

@@ -37,7 +37,6 @@
     <link rel="stylesheet" th:href="@{/assets/global/vendor/chartist/chartist.css}">
     <link rel="stylesheet" th:href="@{/assets/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css}">
     <link rel="stylesheet" th:href="@{/assets/global/vendor/aspieprogress/asPieProgress.css}">
-    <link rel="stylesheet" th:href="@{/assets/global/vendor/bootstrap-datepicker/bootstrap-datepicker.css}">
     <link rel="stylesheet" th:href="@{/assets/css/pages/dashboard/team.min.css}">
     <link rel="stylesheet" th:href="@{/assets/global/vendor/bootstrap-toggle/bootstrap-toggle.css}">
     
@@ -46,6 +45,7 @@
     <link rel="stylesheet" th:href="@{/assets/global/fonts/material-design/material-design.min.css}">
     <link rel="stylesheet" th:href="@{/assets/global/fonts/web-icons/web-icons.min.css}">
     <link rel="stylesheet" th:href="@{/assets/global/fonts/brand-icons/brand-icons.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/global/fonts/glyphicons/glyphicons.min.css}">
     <link rel='stylesheet' th:href='@{http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic}'>
     
     <!--[if lt IE 9]>
@@ -386,18 +386,30 @@
             
             <!-- Start Teacher Site Menu -->
             <ul sec:authorize="hasAuthority('TEACHER_PRIVILEGE')" class="site-menu" data-plugin="menu">
+            
               <li th:class="${actionName == 'assignments'} ? 'site-menu-item active' : 'site-menu-item'" >
                 <a th:href="@{/teacher/assignments}" data-dropdown-toggle="false">
                   <i class="site-menu-icon icon md-assignment" aria-hidden="true"></i>
                   <span class="site-menu-title">Assignments</span>
                 </a>
               </li>
+              
+              <li th:class="|${actionName == 'createAssignment' ? 'site-menu-item active' : 'site-menu-item'}
+              				${actionName == 'editAssignment' ? 'site-menu-item active' : 'site-menu-item'}|" >
+                <a th:href="@{/teacher/createAssignment}" data-dropdown-toggle="false">
+                  <i class="site-menu-icon icon md-assignment-o" aria-hidden="true"></i>
+                  <span class="site-menu-title">Create Assignment</span>
+                </a>
+              </li>
+              
+              
               <li th:class="${actionName == 'groups'} ? 'site-menu-item active' : 'site-menu-item'" >
                 <a href="javascript:void(0)" data-dropdown-toggle="false">
                   <i class="site-menu-icon icon fa-users" aria-hidden="true"></i>
                   <span class="site-menu-title">Groups</span>
                 </a>
               </li>
+              
             </ul>
             <!-- End Teacher Site Menu -->
             
@@ -496,7 +508,6 @@
     <script th:src="@{/assets/global/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.js}"></script>
     <script th:src="@{/assets/global/vendor/aspieprogress/jquery-asPieProgress.js}"></script>
     <script th:src="@{/assets/global/vendor/matchheight/jquery.matchHeight-min.js}"></script>
-    <script th:src="@{/assets/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js}"></script>
     <script th:src="@{/assets/global/vendor/bootstrap-notify/bootstrap-notify.js}"></script>
     <script th:src="@{/assets/global/vendor/bootstrap-toggle/bootstrap-toggle.js}"></script>
     
@@ -523,7 +534,6 @@
     <script th:src="@{/assets/global/js/Plugin/switchery.js}"></script>
     <script th:src="@{/assets/global/js/Plugin/matchheight.js}"></script>
     <script th:src="@{/assets/global/js/Plugin/aspieprogress.js}"></script>
-    <script th:src="@{/assets/global/js/Plugin/bootstrap-datepicker.js}"></script>
     <script th:src="@{/assets/js/dashboard/team.js}"></script>
     
     <script th:src="@{/assets/js/app/ajaxSessionExpiration.js}"></script>

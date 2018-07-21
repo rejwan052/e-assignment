@@ -24,7 +24,9 @@
                 
                 	<td class="subject">
 	                    <div class="table-content">
-	                      <p class="blue-grey-500" th:text="${row.title}">title</p>
+	                      <a th:href="@{/teacher/assignment/} + ${row.id}">
+	                      	<p class="blue-grey-500" th:text="${row.title}">title</p>
+	                      </a>
 	                      <span class="num orange-600" 
 	                      		th:text="${row.submitEndDate} ? ${#calendars.format(row.submitStartDate,'dd MMM yyyy hh:mm a')+' to '+#calendars.format(row.submitEndDate,'dd MMM yyyy hh:mm a')}">
 	                      		Last date of submission

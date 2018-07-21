@@ -14,5 +14,9 @@ public class PageConstantUtils {
 	
 	
 	public static final String ASSIGNMENTS = "teacher/assignments";
+	public static final String CREATE_ASSIGNMENT = "teacher/assignment";
+	
+	
+	public static final String PAGE_NOT_FOUND = "error/404";
 
 }

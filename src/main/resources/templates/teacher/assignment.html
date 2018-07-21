@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sd="http://io.github.jpenren/sd"
+	layout:decorate="~{layouts/main}">
+	
+<head>
+<meta charset="UTF-8">
+<title>e-assignment | Create Assignment</title>
+</head>
+<body>
+
+	<th:block layout:fragment="~{page-specific-css-script}">
+	
+		<link rel="stylesheet" th:href="@{/assets/css/apps/work.min.css}">
+        <link th:href="@{/assets/global/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css}" rel="stylesheet" type="text/css" />
+        <script th:src="@{/assets/global/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.js}"></script>
+        
+		<link th:href="@{/assets/global/vendor/selectize/css/selectize.bootstrap3.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/assets/global/vendor/selectize/css/selectize-custom.css}" rel="stylesheet" type="text/css" />
+        <script th:src="@{/assets/global/vendor/selectize/js/standalone/selectize.js}"></script>
+        <script th:src="@{/assets/global/vendor/formvalidation/formValidation.min.css}"></script>
+        
+        <script th:src="@{/assets/js/app/assignment.js}"></script>
+           
+		<style type="text/css">
+			/* page specific css */
+			
+		</style>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+				
+				var date = new Date();
+		        date.setDate(date.getDate()-1);
+		
+		        $('.form_date').datetimepicker({
+		            /* format: "yyyy-mm-dd HH:ii", */
+		            use24hours: true,
+		            startDate: date,
+		            weekStart: 1,
+		            todayBtn:  1,
+		        	autoclose: 1,
+		        	todayHighlight: 1,
+		        	startView: 2,
+		        	forceParse: 0,
+		            showMeridian: 1
+		        });
+
+		/*]]>*/ 	
+		</script>
+		
+	</th:block>
+	
+	
+	<div class="panel" layout:fragment="~{page-content}">
+
+        <div class="panel-body container-fluid">
+          <div class="row row-lg">
+          
+            <div class="col-md-12">
+              <!-- Example Basic Form (Form grid) -->
+              <div class="example-wrap">
+              
+              	<div th:switch="${actionName}" th:remove="tag"> 
+				  <h4 class="example-title" th:case="'editAssignment'">Edit Assignment</h4>
+				  <h4 class="example-title" th:case="*">Create Assignment</h4> 
+				</div>
+				
+                <div class="example">
+                  <form autocomplete="off" id="createAssignmentForm" th:action="@{/createAssignment}" th:object="${assignmentDto}" method="post">
+                  
+                  	<input type="hidden" th:field="*{id}" />
+                  	
+                    <div class="row">
+                    
+                      <div class="form-group form-material col-md-4">
+                        <label class="form-control-label" th:text="#{label.assignment.title}+'*'" for="assignmentTitle">Title</label>
+                        <input class="form-control" id="assignmentTitle" th:field="*{title}" placeholder="Assignment Title" autocomplete="off" type="text">
+                        <small id="titleError" style="display:none" class="invalid-feedback"></small>
+                      </div>
+                      
+                      <div class="form-group form-material col-md-2">
+                        <label class="form-control-label" th:text="#{label.assignment.session}" for="assignmentSession">Session</label>
+                        <input class="form-control" id="assignmentSession" th:field="*{session}" placeholder="Assignment Session" autocomplete="off" type="text">
+                      </div>
+                      
+                      <div class="form-group form-material col-md-3">
+                        <label th:text="#{label.assignment.submitStartDate}+'*'" class="form-control-label">Start Date</label>
+						<div class="input-group date form_date">
+							<input class="form-control" name="submitStartDate" placeholder="Start Date" size="16" type="datetime" th:field="*{submitStartDate}" />
+							<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+						</div>
+						<small id="submitStartDateError" style="display:none" class="invalid-feedback"></small>
+                      </div>
+                      
+                      <div class="form-group form-material col-md-3">
+                        <label th:text="#{label.assignment.submitEndDate}+'*'" class="form-control-label">End Date</label>
+						<div class="input-group date form_date">
+							<input class="form-control" placeholder="End Date" name="submitEndDate" th:field="*{submitEndDate}" size="16" type="datetime" />
+							<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+							<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+						</div>
+						<small id="submitEndDateError" style="display:none" class="invalid-feedback"></small>
+                      </div>
+                      
+                    </div>
+                    
+                    <div class="row">
+                    
+						<div class="form-group form-material col-md-7">
+							<div class="control-group">
+								<label for="assignmentEmail" th:text="#{label.assignment.emails}" class="form-control-label">Assignment To</label> 
+								<input id="assignmentEmail" th:field="*{emailsTo}" class="contacts form-control" value=""  name="emailsTo[]" multiple  placeholder="Pick some email...">
+							</div>
+						</div>
+						
+						<div id="assignmentStatus" class="col-md-2 checkbox-custom checkbox-default">
+							<div class="checkbox">
+								<input type="checkbox" id="publishedAssignment" th:field="*{status}"  th:value="${status}">
+								<label for="publishedAssignment">Publish Assignment</label>
+							</div>
+						</div>
+						
+						<!-- <div class="col-md-3">
+							<div class="form-actions" style="text-align: right;">
+								<button type="submit" data-loading-text="<span class='glyphicon glyphicon-refresh spinning'></span>Processing Request..."  id="assignment-create-button" th:text="#{label.form.submit}" class="btn btn-primary">submit</button>
+							</div>
+						</div> -->
+						
+					</div>
+									
+                    <div class="form-group form-material" style="text-align: right;">
+                      <button type="submit" class="btn btn-primary btn-outline">Create Assignment</button>
+                    </div>
+                    
+                  </form>
+                </div>
+              </div>
+              <!-- End Example Basic Form -->
+            </div>
+
+            
+          </div>
+        </div>
+        
+          
+    </div>
+    
+</body>
+</html>
