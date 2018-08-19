@@ -12,7 +12,8 @@ import com.eassignment.persistence.model.User;
 public interface UserRepository extends JpaRepository<User, Long>,QueryDslPredicateExecutor<User>{
 	
     User findByEmail(String email);
-    void delete(User user);   
+    @Override
+	void delete(User user);   
     List<User> findByRolesName(String name);
     
     List<User> findByRolesNameAndEmailIgnoreCaseContainingOrFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(String roleName,String email,String firstName,String lastName);
@@ -24,7 +25,8 @@ public interface UserRepository extends JpaRepository<User, Long>,QueryDslPredic
     Page<User> findByFirstNameLikeAndLastNameLike(String firstName, String lastName, Pageable pageable);
     
     
-    long count();
+    @Override
+	long count();
     
     long countByRolesName(String name);
     

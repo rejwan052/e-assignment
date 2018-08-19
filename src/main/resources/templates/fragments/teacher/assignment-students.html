@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+</head>
+<body>
+		<div th:fragment="assignment-students" data-role="content" th:if="${not #lists.isEmpty(assignmentStudents)}">
+			<li class="list-group-item" th:each="assignmentStudent,iStat : ${assignmentStudents}" data-plugin="tasklist">
+                 <div class="checkbox-custom checkbox-primary">
+                 
+                   <input th:id="${iStat.index}" name="inputCheckboxesForward" type="checkbox">
+                   
+                   <label th:for="${iStat.index}">
+                     <span th:text="${assignmentStudent.email}">Assignment Student Email</span>
+                     <div th:remove="tag" th:if="${assignmentStudent.status} == true">
+                    	<span class="badge badge-outline badge-success" >Submitted</span>  
+                    	<span class="badge badge-pill badge-primary">at</span> 
+                    	<span class="num green-600" th:text="${assignmentStudent.submitedDate} ? ${#calendars.format(assignmentStudent.submitedDate,'dd MMM yyyy hh:mm a')} : ''">Submitted Date</span>
+                     </div>
+           		  <span th:class="${assignmentStudent.status} ? '' : 'badge badge-outline badge-primary'" th:if="${assignmentStudent.status} == false">Not Submitted</span>
+                   </label>
+                   
+                   <a class="pl-15" href="javascript:void(0)" th:if="${assignmentStudent.status} == true">
+						<i class="icon wb-download" aria-hidden="true"></i>
+				   </a>
+	
+                   <small class="num orange-600 float-right" th:text="${assignmentStudent.lastDateOfSubmission} ? ${#calendars.format(assignmentStudent.lastDateOfSubmission,'dd MMM yyyy hh:mm a')} : ''">
+                         	Assignment submission end date
+                   </small>
+                   
+                 </div>
+        	</li>
+        </div>      
+</body>
+</html>

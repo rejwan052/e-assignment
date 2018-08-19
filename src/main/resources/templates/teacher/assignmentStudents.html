@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sd="http://io.github.jpenren/sd"
+	layout:decorate="~{layouts/main}">
+<head>
+<meta charset="UTF-8">
+<title>e-assignment | Assignment Students</title>
+</head>
+<body>
+
+<th:block layout:fragment="~{page-specific-css-script}">
+	
+		<link th:href="@{/assets/global/vendor/tasklist/tasklist.min.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/assets/css/buttons/buttons.min.css}" rel="stylesheet" type="text/css" />
+		<script th:src="@{/assets/js/Plugin/tasklist.js}"></script>
+        <script th:src="@{/assets/global/vendor/masonry/masonry.pkgd.js}"></script>
+        <script th:src="@{/assets/js/Plugin/masonry.js}"></script>
+        
+           
+		<style type="text/css">
+			/* page specific css */
+			
+		</style>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+				
+				$(function() {
+				    console.log( "ready!" );
+
+				    $("#search-assignment-student-form").submit(function(e) {
+				        searchOrFilterAssignmentStudents(e);
+				    });
+
+				    $('input[type=radio]').change( function(e) {
+				    	searchOrFilterAssignmentStudents(e);
+				    });
+
+
+				    function searchOrFilterAssignmentStudents(e){
+				    	e.preventDefault();
+				    	var form = $("#search-assignment-student-form");
+				    	var actionUrl = form.attr('action');
+						var formData = form.serialize();
+						
+				        $.ajax({
+				                url: actionUrl,
+				                type: 'get',
+				                data: formData,
+				                success: function(result) {
+				                	 $("#assignmentStudentList").html(result);
+				                }
+				        });
+				    	
+					}
+				    
+				    
+				});
+		
+		/*]]>*/ 	
+		</script>
+		
+</th:block>
+
+<div layout:fragment="~{page-content}" th:remove="tag">
+
+		<div class="panel">
+            <div class="panel-heading">
+           	  <h3 class="panel-title">
+              	<i class="icon md-assignment-check" aria-hidden="true"></i>
+              	<span th:text="${assignment?.title}">Assignment Title</span>
+              	<span th:class="${assignment?.status} ? 'badge badge-outline badge-success' : ''" th:if="${assignment?.status} == true">Published</span>
+                <span th:class="${assignment?.status} ? '' : 'badge badge-outline badge-primary'" th:if="${assignment?.status} == false">Saved</span>
+                <span class="num orange-600 panel-desc" th:text="${assignment?.submitEndDate} ? ${#calendars.format(assignment?.submitStartDate,'dd MMM yyyy hh:mm a')+' to '+#calendars.format(assignment?.submitEndDate,'dd MMM yyyy hh:mm a')} : ''"></span>
+              </h3>
+              <div class="panel-actions panel-actions-keep">
+                  <div class="dropdown">
+                    <a class="panel-action" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="icon wb-more-vertical" aria-hidden="true"></i></a>
+                    <div class="dropdown-menu dropdown-menu-bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu" x-placement="bottom-end" style="position: absolute; transform: translate3d(34px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                      <a th:if="${assignment?.status==false}" class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-arrow-up" aria-hidden="true"></i>Publish</a>
+                      <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa fa-files-o" aria-hidden="true"></i> Instructions/reference file(s)</a>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div class="panel-body">
+              	<p th:utext="${assignment?.instructions}" th:remove="tag">Assignment Instructions</p>
+            </div>
+            <div class="panel-footer">
+                <a th:href="@{'/teacher/assignment/'+${assignment.id}+'/documents'}">
+                  <i class="icon wb-attach-file" aria-hidden="true"></i>
+                  	<span class="badge badge-pill up badge-info" th:text="${#lists.size(assignment?.assignmentDocuments)}">3</span>
+                </a>
+            </div>
+        </div>
+
+		<div class="row">
+
+          <div class="col-lg-12">
+          
+            <!-- Panel To Do List -->
+            <div class="panel pb-20" id="todo-list">
+            
+              <div class="panel-heading">
+                <h3 class="panel-title">Assignment Students</h3>
+                <th:block th:insert="/fragments/teacher/assignment-students-search-action-panel :: assignment-students-search-action-panel"></th:block>
+              </div>
+              
+              <!-- Start Assignment Student Fragment -->
+              <ul class="list-task list-group">
+                <div data-role="container" id="assignmentStudentList">
+                    <th:block th:insert="fragments/teacher/assignment-students :: assignment-students"></th:block>
+                </div>
+              </ul>
+              <!-- End Assignment Student Fragment -->
+              
+              <!-- For Panel Loader -->
+              <!-- <div class="panel-loading">
+                   <div class="loader loader-default"></div>
+              </div> -->
+              
+            </div>
+            <!-- End Panel To Do List -->
+            
+            
+          </div>
+    </div>
+</div>
+
+</body>
+</html>

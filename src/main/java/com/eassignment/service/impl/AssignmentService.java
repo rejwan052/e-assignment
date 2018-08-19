@@ -33,6 +33,7 @@ import com.eassignment.service.IUserService;
 import com.eassignment.web.dto.AssignmentDTO;
 import com.eassignment.web.dto.AssignmentInfoDTO;
 import com.eassignment.web.error.AssignmentTitleAlreadyExistsByUserException;
+import com.eassignment.web.util.DateUtility;
 import com.querydsl.core.types.Predicate;
 
 @Service
@@ -61,6 +62,10 @@ public class AssignmentService implements IAssignmentService {
 	
 	@Autowired
     private PasswordEncoder passwordEncoder;
+	
+	
+	@Autowired
+	private DateUtility dateUtility;
 	
 	
 	
@@ -98,6 +103,7 @@ public class AssignmentService implements IAssignmentService {
     			assignment.setUser(assignmentUser);
     			assignment.setSubmitStartDate(assignmentDTO.getSubmitStartDate());
     			assignment.setSubmitEndDate(assignmentDTO.getSubmitEndDate());
+    			assignment.setModifiedDate(new Date());
     			
     			Set<AssignmentStudent>  assignmentStudents= new HashSet<AssignmentStudent>();
     			

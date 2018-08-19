@@ -26,7 +26,8 @@ public class UserSecurityService implements ISecurityUserService {
 
     // API
 
-    public String validatePasswordResetToken(long id, String token) {
+    @Override
+	public String validatePasswordResetToken(long id, String token) {
         final PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
         if ((passToken == null) || (passToken.getUser().getId() != id)) {
             return "invalidToken";

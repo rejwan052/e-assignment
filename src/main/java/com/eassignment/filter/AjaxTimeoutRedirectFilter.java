@@ -64,9 +64,11 @@ public class AjaxTimeoutRedirectFilter extends GenericFilterBean {
 	}
 	
 	private static class DefaultThrowableAnalyzer extends ThrowableAnalyzer {
+		@Override
 		protected void initExtractorMap() {
 			super.initExtractorMap();
 			registerExtractor(ServletException.class, new ThrowableCauseExtractor() {
+				@Override
 				public Throwable extractCause(Throwable throwable) {
 					ThrowableAnalyzer.verifyThrowableHierarchy(throwable, ServletException.class);
 					return ((ServletException) throwable).getRootCause();

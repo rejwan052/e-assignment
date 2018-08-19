@@ -36,7 +36,8 @@ public class MyUserDetailsService implements UserDetailsService {
 
     // API
 
-    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+    @Override
+	public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
         final String ip = getClientIP();
         if (loginAttemptService.isBlocked(ip)) {
             throw new RuntimeException("blocked");

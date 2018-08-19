@@ -13,6 +13,7 @@ public class BaseInterceptor extends HandlerInterceptorAdapter{
 	
 private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 	
+	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		
 		String controllerName = "";

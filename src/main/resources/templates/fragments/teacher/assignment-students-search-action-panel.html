@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+</head>
+<body>
+			<div th:fragment="assignment-students-search-action-panel" class="panel-actions panel-actions-keep">
+		 		<form id="search-assignment-student-form" class="float-left" th:action="@{/teacher/searchOrFilterAssignmentStudents}" th:object="${searchDTO}">
+		 			 <input type="hidden" th:field="*{assignmentId}" th:value="${assignment.id}" />
+                  	 <div class="panel-action input-search">
+                  	 	<button type="submit" class="input-search-btn pr-15">
+		                    <i class="icon md-search" aria-hidden="true"></i>
+		                </button>
+		                <input class="form-control" name="" th:field="*{searchString}" placeholder="Search by email..." type="text">
+                  	 </div>
+	              
+		             <div class="btn-group" data-toggle="buttons" role="group">
+	                        <label class="btn btn-sm btn-outline btn-primary">
+	                          <input autocomplete="off" name="assignmentStatus" th:field="*{assignmentStatus}" value="Submitted" checked="" type="radio">
+	                          <i class="icon wb-check text-active" aria-hidden="true"></i>Submitted
+	                        </label>
+	                        <label class="btn btn-sm btn-outline btn-primary">
+	                          <input autocomplete="off" name="assignmentStatus" th:field="*{assignmentStatus}" value="NotSubmitted" type="radio">
+	                          <i class="icon wb-check text-active" aria-hidden="true"></i>Not Submitted
+	                        </label>
+	                        <label class="btn btn-sm btn-outline btn-primary active">
+	                          <input autocomplete="off" name="assignmentStatus" th:field="*{assignmentStatus}" value="all" type="radio">
+	                          <i class="icon wb-check text-active" aria-hidden="true"></i>All
+	                        </label>
+	                  </div>
+                 </form>
+                  
+                 <div class="dropdown">
+                    <a class="panel-action" id="examplePanelDropdown" data-toggle="dropdown" href="#"
+                      aria-expanded="false" role="button"><i class="icon wb-more-vertical" aria-hidden="true"></i></a>
+                    <div class="dropdown-menu dropdown-menu-bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown"
+                      role="menu">
+                      <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-user-plus" aria-hidden="true"></i> Add Student</a>
+                      <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-calendar-plus-o" aria-hidden="true"></i> Update Assignment Submission Date</a>
+                      <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-download" aria-hidden="true"></i> Download  Assignment</a>
+                    </div>
+                 </div>
+                  
+			</div>
+</body>
+</html>

@@ -1,21 +1,25 @@
 package com.eassignment.web.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.StringJoiner;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -29,14 +33,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.eassignment.authentication.IAuthenticationFacade;
 import com.eassignment.persistence.model.Assignment;
 import com.eassignment.persistence.model.AssignmentStudent;
+import com.eassignment.persistence.model.Document;
 import com.eassignment.persistence.model.User;
 import com.eassignment.service.IAssignmentService;
+import com.eassignment.service.IAssignmentStudentService;
+import com.eassignment.service.IDocumentService;
 import com.eassignment.service.IUserService;
 import com.eassignment.web.dto.AssignmentDTO;
+import com.eassignment.web.dto.AssignmentStudentSearchDTO;
+import com.eassignment.web.dto.DocumentDTO;
 import com.eassignment.web.dto.EmailsDto;
 import com.eassignment.web.util.GenericResponse;
 import com.eassignment.web.util.PageConstantUtils;
@@ -50,6 +61,11 @@ public class TeacherController extends EAssignmentBaseController{
 	
 	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 	
+	// The Environment object will be used to read parameters from the 
+	// application.properties configuration file
+	@Autowired
+	private Environment env;
+		
 	@Autowired
 	private IAuthenticationFacade authenticationFacade;
 	
@@ -60,7 +76,13 @@ public class TeacherController extends EAssignmentBaseController{
 	private IAssignmentService assignmentService;
 	
 	@Autowired
+	private IAssignmentStudentService assignmentStudentService;
+	
+	@Autowired
 	private MessageSource messages;
+	
+	@Autowired
+	private IDocumentService documentService;
 	
 	
 	/*Assignments Page*/
@@ -97,32 +119,7 @@ public class TeacherController extends EAssignmentBaseController{
 	@ResponseBody
 	public GenericResponse saveAssignment(final Locale locale,@ModelAttribute("assignmentDto") @Valid AssignmentDTO assignmentDTO,@RequestParam Map<String,String> reqPar){
 		
- 		String submitStartDate = reqPar.get("submitStartDate");
- 		String submitEndDate = reqPar.get("submitEndDate");
- 		
- 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
- 		
-			Date pStartDate = null;
-			Date pEndDate = null;
-			
-			try {
-				pStartDate = format.parse(submitStartDate);
-				pEndDate = format.parse(submitEndDate);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			
-			Calendar c1 = Calendar.getInstance();
-			c1.setTime(pStartDate);
-			
-			Calendar c2 = Calendar.getInstance();
-			c2.setTime(pEndDate);
-			
-			assignmentDTO.setSubmitStartDate(c1.getTime());
-			assignmentDTO.setSubmitEndDate(c2.getTime());
-			
-			assignmentService.saveAssignment(assignmentDTO);
-		
+		assignmentService.saveAssignment(assignmentDTO);
 		
     	return new GenericResponse(messages.getMessage("message.assignmentSaveSuc", null, locale));
 	}
@@ -175,6 +172,41 @@ public class TeacherController extends EAssignmentBaseController{
 		return viewPage;
 	}
 	
+	@RequestMapping(value="/viewAssignmentStudents",method=RequestMethod.GET)
+	public String viewAssignmentStudent(Model model,@RequestParam(value = "assignmentId", required = true) Long assignmentId,
+										@SortDefault.SortDefaults({
+											@SortDefault(sort = "status",direction = Sort.Direction.ASC)
+										}) Pageable pageable,@ModelAttribute("searchDTO") AssignmentStudentSearchDTO searchDTO){
+		
+		if (authenticationFacade.isAuthenticated()) {
+			
+			User currentUser = userService.findUserByEmail(authenticationFacade.getAuthentication().getName());
+    		
+    		Assignment assignment = assignmentService.getAssignmentByIdAndUser(assignmentId,currentUser.getId());
+    		if (assignment!=null) {
+    			model.addAttribute("assignmentStudents", assignmentStudentService.getAssignmentStudentsByAssignment(assignment,null,pageable));
+    			model.addAttribute("assignment", assignment);
+    		}
+		}
+		
+		
+		return PageConstantUtils.ASSIGNMENT_STUDENTS;
+	}
+	
+	@RequestMapping(value="/searchOrFilterAssignmentStudents",method = RequestMethod.GET)
+	public String searchOrFilterAssignmentStudents(Model model,@ModelAttribute("searchDTO") AssignmentStudentSearchDTO searchDTO,
+												   @SortDefault.SortDefaults({
+														@SortDefault(sort = "email",direction = Sort.Direction.ASC)
+												   })Pageable pageable){
+		
+		if (authenticationFacade.isAuthenticated()) {
+			model.addAttribute("assignmentStudents", assignmentStudentService.getAssignmentStudentsByAssignment(null,searchDTO,pageable));
+		}
+	
+		return PageConstantUtils.ASSIGNMENT_STUDENTS_SEARCH_OR_FILTER.toString();
+	}
+	
+	
 	@RequestMapping(value="/assignmentEmail.json/{query}",method=RequestMethod.GET)
 	@ResponseBody
 	public List<EmailsDto> getAssignmentEmails(@PathVariable("query") String query){
@@ -203,5 +235,117 @@ public class TeacherController extends EAssignmentBaseController{
 		return emails;
 	}
 	
+	
+	
+	//Assignment Reference Documents
+	@RequestMapping(value="/assignment/{assignmentId}/documents",method=RequestMethod.GET)
+	public String assignmentReferenceDocuments(Model model,@PathVariable Long assignmentId,@SortDefault.SortDefaults({
+													@SortDefault(sort = "createOn",direction = Sort.Direction.DESC)
+											  }) Pageable pageable){
+		
+		if (authenticationFacade.isAuthenticated()) {
+			User currentUser = userService.findUserByEmail(authenticationFacade.getAuthentication().getName());
+			Assignment assignment = assignmentService.getAssignmentByIdAndUser(assignmentId, currentUser.getId());
+			if(null != assignment){
+				model.addAttribute("assignmentsDocuments", documentService.getAllDocumentsByAssignmenmt(assignment, pageable));
+				model.addAttribute("assignment", assignment);
+			}
+			
+		}
+		
+		return "/teacher/referenceDocuments";
+	}
+	
+	@RequestMapping(value = "/uploadAssignmentDocuments", method = RequestMethod.POST)
+	public @ResponseBody List<DocumentDTO> uploadAssignmentDocuments(MultipartHttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "assignmentId") Long assignmentId) throws IOException {
+
+		List<DocumentDTO> uploadedFiles = null;
+		if (authenticationFacade.isAuthenticated()) {
+
+			User user = userService.findUserByEmail(authenticationFacade.getAuthentication().getName());
+
+			// Getting uploaded files from the request object
+			Map<String, MultipartFile> fileMap = request.getFileMap();
+
+			// Maintain a list to send back the files info. to the client side
+			uploadedFiles = new ArrayList<DocumentDTO>();
+
+			// Iterate through the map
+			for (MultipartFile multipartFile : fileMap.values()) {
+
+				// Save the file to local disk
+				saveFileToLocalDisk(multipartFile, user);
+
+				LOGGER.info("Assignment Id :" + assignmentId);
+
+				DocumentDTO fileInfo = getUploadedFileInfo(multipartFile, user, assignmentId);
+
+				// Save the file info to database
+				Document document = saveFileToDatabase(fileInfo);
+
+				// adding the file info to the list
+				uploadedFiles.add(fileInfo);
+			}
+
+		}
+		return uploadedFiles;
+	}
+	
+	
+	
+	private void saveFileToLocalDisk(MultipartFile multipartFile,User user) throws IOException, FileNotFoundException {
+
+		String outputFileName = getOutputFilename(multipartFile,user);
+
+		// Get the filename and build the local file path
+		String filename = multipartFile.getOriginalFilename();
+		String filepath = Paths.get(outputFileName, filename).toString();
+
+		// Save the file locally
+		BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filepath)));
+		stream.write(multipartFile.getBytes());
+		stream.close();
+	}
+	
+	private String getOutputFilename(MultipartFile multipartFile,User user) {
+
+		return getDestinationLocation(user);
+	}
+	
+	private String getDestinationLocation(User user) {
+
+		/*String parrentDirectory = "D:/file_to_save/";*/
+		String parrentDirectory = env.getProperty("e-assignment.paths.uploadedFiles");
+		boolean flag = false;
+
+		File file = new File(parrentDirectory + user.getEmail());
+		if (!file.exists()) {
+			flag = file.mkdirs();
+		}
+
+		return file.getAbsolutePath();
+	}
+	
+	private DocumentDTO getUploadedFileInfo(MultipartFile multipartFile,User user,Long assignmentId) throws IOException {
+
+		DocumentDTO fileInfo = new DocumentDTO();
+	 	
+	    fileInfo.setName(multipartFile.getOriginalFilename());
+	    fileInfo.setSize(multipartFile.getSize());
+	    fileInfo.setType(multipartFile.getContentType());
+	    fileInfo.setLocation(getDestinationLocation(user));
+	    fileInfo.setUserId(user.getId());
+	    fileInfo.setAssignmentId(assignmentId);
+	    fileInfo.setStatus(1);  // Status = 1, teacher assignment related document
+	    
+	    return fileInfo;
+	}
+	
+	private Document saveFileToDatabase(DocumentDTO uploadedFile) {
+
+	    return documentService.saveOrUpdate(uploadedFile);
+
+	}
 
 }

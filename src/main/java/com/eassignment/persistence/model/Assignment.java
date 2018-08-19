@@ -179,8 +179,6 @@ public class Assignment {
 		this.status = status;
 	}
 
-	
-	
 
 	public List<Document> getAssignmentDocuments() {
 		return assignmentDocuments;

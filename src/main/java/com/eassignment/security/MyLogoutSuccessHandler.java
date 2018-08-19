@@ -19,7 +19,8 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
 
 	private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 	
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    @Override
+	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
     	HttpSession session = request.getSession();
         if (session != null && authentication.getDetails() != null) {
             session.removeAttribute("user");

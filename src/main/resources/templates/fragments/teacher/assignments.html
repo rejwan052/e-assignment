@@ -27,8 +27,10 @@
 	                      <a th:href="@{/teacher/assignment/} + ${row.id}">
 	                      	<p class="blue-grey-500" th:text="${row.title}">title</p>
 	                      </a>
-	                      <span class="num orange-600" 
-	                      		th:text="${row.submitEndDate} ? ${#calendars.format(row.submitStartDate,'dd MMM yyyy hh:mm a')+' to '+#calendars.format(row.submitEndDate,'dd MMM yyyy hh:mm a')}">
+	                      <span class="num orange-600" th:text="${row.submitStartDate} ? ${#calendars.format(row.submitStartDate,'dd MMM yyyy hh:mm a')}">
+	                      		Last date of submission
+	                      </span> to 
+	                      <span class="num orange-600" th:text="${row.submitEndDate} ? ${#calendars.format(row.submitEndDate,'dd MMM yyyy hh:mm a')}">
 	                      		Last date of submission
 	                      </span>
 	                    </div>
@@ -54,17 +56,20 @@
 	                        <i class="icon wb-grid-9" aria-hidden="true"></i>
 	                      </button>
 	                      <div class="dropdown-menu" aria-labelledby="exampleIconDropdown1" role="menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-	                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
-	                        	<i class="fa fa-files-o"></i> Add assignment reference file(s)
+	                        <a th:if="${!row.status}" class="dropdown-item" href="javascript:void(0)" role="menuitem">
+	                        	<i class="icon fa-arrow-up" aria-hidden="true"></i> Publish
 	                        </a>
 	                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
-	                        	<i class="fa fa-eye"></i> View assignment student
+	                        	<i class="icon fa fa-files-o"></i> Instructions/reference file(s)
+	                        </a>
+	                        <a class="dropdown-item" th:href="@{/teacher/viewAssignmentStudents(assignmentId=${row.id})}" role="menuitem">
+	                        	<i class="icon fa fa-eye"></i> View student
+	                        </a>
+	                        <a class="dropdown-item" th:href="@{/teacher/assignment/} + ${row.id}" role="menuitem">
+	                        	<i class="icon fa-edit"></i> Edit
 	                        </a>
 	                        <a th:if="${row.status}" class="dropdown-item" href="javascript:void(0)" role="menuitem">
-	                        	<i class="fa fa-pencil"></i> Edit assignment
-	                        </a>
-	                        <a th:if="${row.status}" class="dropdown-item" href="javascript:void(0)" role="menuitem">
-	                        	<i class="fa fa-download"></i> Download assignment
+	                        	<i class="icon fa fa-download"></i> Download
 	                        </a>
 	                      </div>
 	                    </div>

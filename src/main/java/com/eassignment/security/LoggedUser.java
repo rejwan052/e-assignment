@@ -32,7 +32,8 @@ public class LoggedUser implements HttpSessionBindingListener {
     	
     }
 
-    public void valueBound(HttpSessionBindingEvent event) {
+    @Override
+	public void valueBound(HttpSessionBindingEvent event) {
         List<String> users = activeUserStore.getUsers();
         LoggedUser user = (LoggedUser) event.getValue();
         if (!users.contains(user.getUsername())) {
@@ -46,7 +47,8 @@ public class LoggedUser implements HttpSessionBindingListener {
         }
     }
 
-    public void valueUnbound(HttpSessionBindingEvent event) {
+    @Override
+	public void valueUnbound(HttpSessionBindingEvent event) {
         List<String> users = activeUserStore.getUsers();
         LoggedUser user = (LoggedUser) event.getValue();
         if (users.contains(user.getUsername())) {

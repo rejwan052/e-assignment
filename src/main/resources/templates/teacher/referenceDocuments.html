@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sd="http://io.github.jpenren/sd"
+	layout:decorate="~{layouts/main}">
+	
+<head>
+<meta charset="UTF-8">
+<title>e-assignment | Reference Documents</title>
+</head>
+<body>
+
+	<th:block layout:fragment="~{page-specific-css-script}">
+	
+		<link th:href="@{/assets/global/vendor/dropzone/dropzone.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/assets/css/apps/dropzone-custom.css}" rel="stylesheet" type="text/css" />
+        <script th:src="@{/assets/global/vendor/dropzone/dropzone.js}" type="text/javascript"></script>
+        <script th:src="@{/assets/js/app/assignmentDocumentDropzone.js}" type="text/javascript"></script>
+           
+		<style type="text/css">
+			/* page specific css */
+			
+			
+		</style>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+				
+				
+
+		/*]]>*/ 	
+		</script>
+		
+	</th:block>
+	
+	
+	<div class="panel" layout:fragment="~{page-content}">
+       <div class="panel-heading">
+         <h3 class="panel-title">
+         	<i class="site-menu-icon icon md-assignment" aria-hidden="true"></i>
+         	Upload Reference Document On
+         	<span th:text="${assignment?.title}">Assignment Title</span>
+         </h3>
+       </div>
+       <div class="panel-body">
+        	<span class="badge badge-outline badge-danger">Maximum file size is 25MB</span>
+        	<form id="assignment-documents-form" th:object="${assignmentDocument}" th:action="@{/teacher/uploadAssignmentDocuments(assignmentId=${assignment.id})}" enctype="multipart/form-data">
+				<div id="assignment-documents-dropzone" class="dropzone dz-default dz-message file-dropzone text-center well col-sm-12">
+
+				</div>
+			</form>
+			<hr/>
+			<div class="float-right">
+				<button id="assignment-documents-upload-button" type="button" class="btn btn-primary btn-outline">
+					<i class="icon fa-upload" aria-hidden="true"></i> Upload
+				</button>
+			</div>
+       </div>
+       
+       <div class="panel-footer">
+       		<h4>Assignment Documents :</h4>
+			<div class="row" th:if="${not #lists.isEmpty(assignmentsDocuments)}">
+				<div class="col-md-3 col-sm-4" th:each="assignmentDocument,iStat : ${assignmentsDocuments}">
+						<div class="wrimagecard wrimagecard-topimage">
+							<div class="wrimagecard-topimage_header"
+								style="background-color: rgba(187, 120, 36, 0.1)">
+								<center th:if="${#strings.containsIgnoreCase(assignmentDocument.name, '.pdf')}">
+									<i class="icon fa-file-pdf-o" style="color: #BB7824"></i>
+								</center>
+								<center th:if="${#strings.containsIgnoreCase(assignmentDocument.name, '.doc')}">
+									<i class="icon fa-file-word-o" style="color: #BB7824"></i>
+								</center>
+								<center th:if="${#strings.containsIgnoreCase(assignmentDocument.name, '.xls')}">
+									<i class="icon fa-file-excel-o" style="color: #BB7824"></i>
+								</center>
+								<center th:if="${#strings.containsIgnoreCase(assignmentDocument.name, '.zip')}">
+									<i class="icon fa-file-zip-o" style="color: #BB7824"></i>
+								</center>
+							</div>
+							<div class="wrimagecard-topimage_title">
+								<h4>
+									<span th:text="${#strings.abbreviate(assignmentDocument.name,40)}"></span>
+									<div class="pull-right badge"></div>
+								</h4>
+								<div class="panel-actions panel-actions-keep">
+					                <div class="dropdown">
+					                  <a class="panel-action" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="icon md-more-vert" aria-hidden="true"></i></a>
+					                  <div class="dropdown-menu bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu" x-placement="bottom-end" style="position: absolute; transform: translate3d(34px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+					                    <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-download" aria-hidden="true"></i>Download</a>
+					                    <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-trash" aria-hidden="true"></i>Delete</a>
+					                  </div>
+					                </div>
+				              	</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+</body>
+</html>

@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.eassignment.persistence.dao.UserRepository;
-import com.eassignment.persistence.model.User;
 
 @Component("myAuthenticationSuccessHandler")
 public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
@@ -34,7 +33,8 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
     @Autowired
     private UserRepository userRepository;
 
-    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
+    @Override
+	public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
     	
         handle(request, response, authentication);
         
