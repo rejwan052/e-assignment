@@ -239,7 +239,7 @@ public class TeacherController extends EAssignmentBaseController{
 	
 	//Assignment Reference Documents
 	@RequestMapping(value="/assignment/{assignmentId}/documents",method=RequestMethod.GET)
-	public String assignmentReferenceDocuments(Model model,@PathVariable Long assignmentId,@SortDefault.SortDefaults({
+	public String assignmentReferenceDocuments(Model model,@PathVariable Long assignmentId,@RequestParam(value = "isFragment",required = false) Boolean isFragment,@SortDefault.SortDefaults({
 													@SortDefault(sort = "createOn",direction = Sort.Direction.DESC)
 											  }) Pageable pageable){
 		
@@ -253,8 +253,15 @@ public class TeacherController extends EAssignmentBaseController{
 			
 		}
 		
-		return "/teacher/referenceDocuments";
+		
+		if(null!=isFragment && isFragment){
+			return PageConstantUtils.ASSIGNMENT_REFERENCE_DOCUMENTS_FRAGMENTS.toString();
+		}else{
+			return PageConstantUtils.ASSIGNMENT_REFERENCE_DOCUMENTS;
+		}
+		
 	}
+	
 	
 	@RequestMapping(value = "/uploadAssignmentDocuments", method = RequestMethod.POST)
 	public @ResponseBody List<DocumentDTO> uploadAssignmentDocuments(MultipartHttpServletRequest request, HttpServletResponse response,
@@ -292,6 +299,26 @@ public class TeacherController extends EAssignmentBaseController{
 		return uploadedFiles;
 	}
 	
+	
+	/*@RequestMapping(value="/assignmentDocuments/{assignmentId}",method=RequestMethod.GET)
+	public String getAssignmentDocuments(@PathVariable("assignmentId") long assignmentId,Model model){
+		LOGGER.info("Inside Metod :"+assignmentId);
+		List<DocumentDTO> assignmentsDocuments = new ArrayList<>();
+		Authentication authentication = authenticationFacade.getAuthentication();
+    	if (!(authentication instanceof AnonymousAuthenticationToken)) {
+    		User assignmentUser = userService.findUserByEmail(authentication.getName());
+    		Assignment assignment = assignmentService.getAssignmentByIdAndUser(assignmentId,assignmentUser.getId());
+    		if(assignment!=null){
+    			List<Document> documents = uploadService.getAllDocumentsByAssignmenmt(assignment);
+    			if (documents.size()>0) {
+    				assignmentsDocuments = DocumentMapper.map(documents);
+    				LOGGER.info("assignmentsDocuments size :"+assignmentsDocuments.size());
+    				model.addAttribute("assignmentsDocuments", assignmentsDocuments);
+				}
+    		}
+    	}
+    	return "teacher/assignmentDocuments :: assignmentDocuments";
+	}*/
 	
 	
 	private void saveFileToLocalDisk(MultipartFile multipartFile,User user) throws IOException, FileNotFoundException {

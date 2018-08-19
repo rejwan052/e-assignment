@@ -20,25 +20,6 @@
 		dictRemoveFile: 'Remove',
 		init : function() {
 			
-			
-			/*var mockFile = {
-			  name: 'default image',
-			  accepted: true,
-			  size: '123456',
-			  type: 'image/jpeg',
-			  status: Dropzone.ADDED,
-			  url: 'https://picsum.photos/200/300',
-			};
-
-			// Call the default addedfile event handler
-			this.emit("addedfile", mockFile);
-			// And optionally show the thumbnail of the file:
-			this.emit("thumbnail", mockFile, this.createThumbnailFromUrl(mockFile, mockFile.url));
-			// Add file to list of files
-			this.files.push(mockFile);
-			// Call complete to remove the loader
-			this.emit("complete", mockFile);*/
-			
 			this.on("addedfile", function(file) {
 				/*console.log("added", file);*/
 				var ext = file.name.split('.').pop();
@@ -55,22 +36,38 @@
 			});
 					
 			$('#assignment-documents-upload-button').on("click", function(e) {
-
+	
 				assignmentDocumentsDropzone.processQueue();
 				
 			});
+			
 			this.on("error", function(file, response) {
-                errorMsg(response);
-            });
+	            errorMsg(response);
+	        });
+			
 			this.on("successmultiple", function(files, serverResponse) {
 				successMsg("Assignment Document(s) Upload Successfully");
 			});
+			
 			this.on("complete", function(file) {
 				this.removeFile(file);
+				retrieveAssignmentDocuments();
 			});
 
 		}
 	});
+	
+	
+	function retrieveAssignmentDocuments() {
+		var url = '/teacher/assignment';
+		if ($('#assignmentId').val() != '') {
+			url = url + '/' + $('#assignmentId').val()+'/documents?isFragment=true';
+		}
+		
+		console.log("Assignment documents url: "+url);
+		
+		$("#assignmentDocuments").load(url);
+	}
 	
 	
 	function successMsg(msg){
