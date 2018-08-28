@@ -3,10 +3,10 @@ package com.eassignment.web.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -147,7 +147,7 @@ public class AdminController extends EAssignmentBaseController {
 	@ResponseBody
 	public GenericResponse updateUser(Model model,final Locale locale,
 									  @PathVariable Long id,@RequestParam Map<String, String> reqPar,
-									  @RequestParam("roles") Collection<Role> roles){
+									  @RequestParam("roles") Set<Role> roles){
 		
 		User updateUser = userService.getUserByID(id);
 		String changedEmail = reqPar.get("email");

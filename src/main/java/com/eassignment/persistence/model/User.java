@@ -1,6 +1,7 @@
 package com.eassignment.persistence.model;
 
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,14 +19,16 @@ import javax.persistence.Table;
 
 import org.jboss.aerogear.security.otp.api.Base32;
 
+import com.eassignment.persistence.model.audit.UserDateAudit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "user_account")
-public class User {
+public class User extends UserDateAudit{
 
-    @Id
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -59,7 +62,7 @@ public class User {
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
     		   inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     @JsonManagedReference
-    private Collection<Role> roles;
+    private Set<Role> roles = new HashSet<>();
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "users_organization", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -115,15 +118,15 @@ public class User {
         this.password = password;
     }
 
-    public Collection<Role> getRoles() {
-        return roles;
-    }
+    public Set<Role> getRoles() {
+		return roles;
+	}
 
-    public void setRoles(final Collection<Role> roles) {
-        this.roles = roles;
-    }
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 
-    public boolean isEnabled() {
+	public boolean isEnabled() {
         return enabled;
     }
 

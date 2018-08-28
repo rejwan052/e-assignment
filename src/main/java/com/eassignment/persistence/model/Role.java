@@ -1,6 +1,8 @@
 package com.eassignment.persistence.model;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +26,7 @@ public class Role {
 
     @ManyToMany(mappedBy = "roles")
     @JsonBackReference
-    private Collection<User> users;
+    private Set<User> users = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "roles_privileges", 
@@ -62,15 +64,15 @@ public class Role {
         this.name = name;
     }
 
-    public Collection<User> getUsers() {
-        return users;
-    }
+    public Set<User> getUsers() {
+		return users;
+	}
 
-    public void setUsers(final Collection<User> users) {
-        this.users = users;
-    }
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
 
-    public Collection<Privilege> getPrivileges() {
+	public Collection<Privilege> getPrivileges() {
         return privileges;
     }
 

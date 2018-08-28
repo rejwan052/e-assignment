@@ -184,6 +184,13 @@
 			<version>1.9.21</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 		
+		
+		<!-- For Java 8 Date/Time Support -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.datatype</groupId>
+		    <artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+
 
 		<!-- Servlet -->
 

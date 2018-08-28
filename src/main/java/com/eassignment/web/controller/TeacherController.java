@@ -299,28 +299,6 @@ public class TeacherController extends EAssignmentBaseController{
 		return uploadedFiles;
 	}
 	
-	
-	/*@RequestMapping(value="/assignmentDocuments/{assignmentId}",method=RequestMethod.GET)
-	public String getAssignmentDocuments(@PathVariable("assignmentId") long assignmentId,Model model){
-		LOGGER.info("Inside Metod :"+assignmentId);
-		List<DocumentDTO> assignmentsDocuments = new ArrayList<>();
-		Authentication authentication = authenticationFacade.getAuthentication();
-    	if (!(authentication instanceof AnonymousAuthenticationToken)) {
-    		User assignmentUser = userService.findUserByEmail(authentication.getName());
-    		Assignment assignment = assignmentService.getAssignmentByIdAndUser(assignmentId,assignmentUser.getId());
-    		if(assignment!=null){
-    			List<Document> documents = uploadService.getAllDocumentsByAssignmenmt(assignment);
-    			if (documents.size()>0) {
-    				assignmentsDocuments = DocumentMapper.map(documents);
-    				LOGGER.info("assignmentsDocuments size :"+assignmentsDocuments.size());
-    				model.addAttribute("assignmentsDocuments", assignmentsDocuments);
-				}
-    		}
-    	}
-    	return "teacher/assignmentDocuments :: assignmentDocuments";
-	}*/
-	
-	
 	private void saveFileToLocalDisk(MultipartFile multipartFile,User user) throws IOException, FileNotFoundException {
 
 		String outputFileName = getOutputFilename(multipartFile,user);

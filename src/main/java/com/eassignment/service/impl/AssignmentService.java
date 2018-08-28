@@ -293,12 +293,15 @@ public class AssignmentService implements IAssignmentService {
 	private User createUserIfNotFound(String email){
 		
 		final Role studentRole = roleRepository.findByName("ROLE_STUDENT");
+		Set<Role> roles = new HashSet<>();
+		roles.add(studentRole);
+		
         final User user = new User();
         /*user.setFirstName("Student");*/
         /*user.setLastName("Test");*/
         user.setPassword(passwordEncoder.encode(email));
         user.setEmail(email);
-        user.setRoles(Arrays.asList(studentRole));
+        user.setRoles(roles);
         user.setEnabled(true);
         userRepository.save(user);
 		

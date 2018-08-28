@@ -3,7 +3,9 @@ package com.eassignment.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -80,7 +82,11 @@ public class UserService implements IUserService {
         user.setLastName(accountDto.getLastName());
         user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
         user.setEmail(accountDto.getEmail());
-        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_STUDENT")));
+        
+        Set<Role> roles = new HashSet<>();
+		roles.add(roleRepository.findByName("ROLE_STUDENT"));
+        
+        user.setRoles(roles);
         
         return repository.save(user);
     }
@@ -253,7 +259,11 @@ public class UserService implements IUserService {
 					User user = new User();
 					user.setEmail(email);
 					for (Role role : usersDto.getRoles()) {
-						user.setRoles(Arrays.asList(roleRepository.findByName(role.getName())));
+						
+						Set<Role> roles = new HashSet<>();
+						roles.add(roleRepository.findByName(role.getName()));
+						
+						user.setRoles(roles);
 						usersDtoStatus.setRoleName(role.getName());
 					}
 					user.setPassword(passwordEncoder.encode(email));
