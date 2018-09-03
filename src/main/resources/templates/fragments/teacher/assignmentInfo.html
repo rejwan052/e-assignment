@@ -5,7 +5,7 @@
 </head>
 <body>
 	<div th:fragment="assignmentInfo" th:remove="tag">
-		<h3 class="panel-title">Assignment List</h3>
+		<!-- <h3 class="panel-title">Assignment List</h3>
         <form name="searchAssignment" class="panel-search-form" th:action="@{/teacher/assignments}" role="search">
           <div class="input-search">
             <i class="input-search-icon wb-search" aria-hidden="true"></i>
@@ -15,12 +15,12 @@
         </form>
 
         <ul class="panel-info">
-			<!-- <li>
+			<li>
 				<div class="num cyan-600">
 					<a th:href="@{/teacher/createAssignment}"><i class="icon wb-plus-circle"></i></a>
 				</div>
 				<p>Create Assignment</p>
-			</li> -->
+			</li>
 			<li class="verticalLine pl-35">
 				<div class="num blue-600">23</div>
 				<p>Total</p>
@@ -33,7 +33,47 @@
 				<div class="num green-600">5</div>
 				<p>Saved</p>
 			</li>
-		</ul>
+		</ul> -->
+		
+		<h1 class="page-title">Assignments</h1>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
+          <li class="breadcrumb-item active">Assignments</li>
+        </ol>
+        
+        <div class="page-header-actions">
+        
+        	<div class="row float-left mr-25">
+        		<form name="searchAssignment" th:action="@{/teacher/assignments}" role="search">
+                 <div class="input-search input-search-dark">
+                   <i class="input-search-icon md-search" aria-hidden="true"></i>
+                   <input class="form-control" id="searchTerm" name="searchTerm" placeholder="Search assignments..." type="text">
+                 </div>
+            	</form>
+        	</div>
+              
+           <div class="row no-space w-250 hidden-sm-down">
+             <div class="col-sm-4 verticalLine">
+               <div class="counter">
+                 <span class="counter-number font-weight-medium num green-600">8</span>
+                 <div class="counter-label">Saved</div>
+               </div>
+             </div>
+             <div class="col-sm-4">
+               <div class="counter">
+                 <span class="counter-number font-weight-medium num orange-600">5</span>
+                 <div class="counter-label">Published</div>
+               </div>
+             </div>
+             <div class="col-sm-4">
+               <div class="counter">
+                 <span class="counter-number font-weight-medium num blue-600">13</span>
+                 <div class="counter-label">Total</div>
+               </div>
+             </div>
+           </div>
+         </div>
+             
 	</div>
 </body>
 </html>

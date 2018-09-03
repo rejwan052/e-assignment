@@ -15,7 +15,7 @@
                   <th><span data-toggle="tooltip" data-placement="top" title="No. of Assignment Documents" class="fa fa-files-o"></span></th>
                   <th><span data-toggle="tooltip" data-placement="top" title="No. of Students" class="fa fa-users"></span></th>
                   <th><span data-toggle="tooltip" data-placement="top" title="Submitted" class="fa fa-upload"></span></th>
-                  <th style="text-align: center;"><span data-toggle="tooltip" data-placement="top" title="Actions" class="icon wb-wrench"></span></th>
+                  <th style="text-align: center;"><span data-toggle="tooltip" data-placement="top" title="Actions" class="` wb-wrench"></span></th>
                 </tr>
               </thead>
               <tbody th:if="${not #lists.isEmpty(page)}">
@@ -59,8 +59,8 @@
 	                        <a th:if="${!row.status}" class="dropdown-item" href="javascript:void(0)" role="menuitem">
 	                        	<i class="icon fa-arrow-up" aria-hidden="true"></i> Publish
 	                        </a>
-	                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
-	                        	<i class="icon fa fa-files-o"></i> Instructions/reference file(s)
+	                        <a class="dropdown-item" th:href="@{'/teacher/assignment/'+${row.id}+'/documents'}" role="menuitem">
+	                        	<i class="icon fa fa-files-o"></i> Add reference file(s)
 	                        </a>
 	                        <a class="dropdown-item" th:href="@{/teacher/viewAssignmentStudents(assignmentId=${row.id})}" role="menuitem">
 	                        	<i class="icon fa fa-eye"></i> View student

@@ -63,6 +63,17 @@
 		
 </th:block>
 
+	<div class="page-header" layout:fragment="~{page-header}">
+		
+    	<h1 class="page-title">Assignment Details & Students</h1>
+    	<ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
+		  <li class="breadcrumb-item"><a th:href="@{/teacher/assignments}">Assignments</a></li>
+          <li class="breadcrumb-item active">Assignment Details & Students</li>
+        </ol>
+		    
+	</div>
+        
 <div layout:fragment="~{page-content}" th:remove="tag">
 
 		<div class="panel">
@@ -79,7 +90,7 @@
                     <a class="panel-action" id="examplePanelDropdown" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="icon wb-more-vertical" aria-hidden="true"></i></a>
                     <div class="dropdown-menu dropdown-menu-bullet dropdown-menu-right" aria-labelledby="examplePanelDropdown" role="menu" x-placement="bottom-end" style="position: absolute; transform: translate3d(34px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
                       <a th:if="${assignment?.status==false}" class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-arrow-up" aria-hidden="true"></i>Publish</a>
-                      <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa fa-files-o" aria-hidden="true"></i> Instructions/reference file(s)</a>
+                      <a class="dropdown-item" th:href="@{'/teacher/assignment/'+${assignment.id}+'/documents'}" role="menuitem"><i class="icon fa fa-files-o" aria-hidden="true"></i> Add reference file(s)</a>
                     </div>
                   </div>
               </div>
@@ -99,7 +110,7 @@
 
           <div class="col-lg-12">
           
-            <!-- Panel To Do List -->
+            <!-- Panel Assignment Student List -->
             <div class="panel pb-20" id="todo-list">
             
               <div class="panel-heading">
@@ -121,7 +132,7 @@
               </div> -->
               
             </div>
-            <!-- End Panel To Do List -->
+            <!-- End Panel Assignment Student List -->
             
             
           </div>

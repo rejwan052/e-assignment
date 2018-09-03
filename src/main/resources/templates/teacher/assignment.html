@@ -15,13 +15,14 @@
 	
 		<link rel="stylesheet" th:href="@{/assets/css/apps/work.min.css}">
         <link th:href="@{/assets/global/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css}" rel="stylesheet" type="text/css" />
-        <script th:src="@{/assets/global/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.js}"></script>
-        
+        <link th:href="@{/assets/global/vendor/summernote/summernote.min.css}" rel="stylesheet" type="text/css" />
 		<link th:href="@{/assets/global/vendor/selectize/css/selectize.bootstrap3.css}" rel="stylesheet" type="text/css" />
 		<link th:href="@{/assets/global/vendor/selectize/css/selectize-custom.css}" rel="stylesheet" type="text/css" />
+		
+		<script th:src="@{/assets/global/vendor/bootstrap-datetimepicker/bootstrap-datetimepicker.js}"></script>
         <script th:src="@{/assets/global/vendor/selectize/js/standalone/selectize.js}"></script>
-        <script th:src="@{/assets/global/vendor/formvalidation/formValidation.min.css}"></script>
-        
+        <script th:src="@{/assets/global/vendor/summernote/summernote.min.js}"></script>
+        <script th:src="@{/assets/js/app/editor-summernote.js}"></script>
         <script th:src="@{/assets/js/app/assignment.js}"></script>
            
 		<style type="text/css">
@@ -52,6 +53,33 @@
 		
 	</th:block>
 	
+	<div class="page-header" layout:fragment="~{page-header}">
+		
+		<th:block th:switch="${actionName}">
+		
+		    <div th:case="'createAssignment'" th:remove="tag">
+		    	<h1 class="page-title">Create Assignment</h1>
+		    	<ol class="breadcrumb">
+		          <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
+		          <li class="breadcrumb-item active">Create Assignment</li>
+		        </ol>
+		    </div>
+		    
+		    <div th:case="'editAssignment'" th:remove="tag">
+		    	<h1 class="page-title">Edit Assignment</h1>
+		    	<ol class="breadcrumb">
+		          <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
+		          <li class="breadcrumb-item"><a th:href="@{/teacher/assignments}">Assignments</a></li>
+		          <li class="breadcrumb-item active">Edit Assignment</li>
+		        </ol>
+		    </div>
+		    
+		    <div th:case="*" th:remove="tag">
+		    </div>
+		    
+		</th:block>
+             
+    </div>
 	
 	<div class="panel" layout:fragment="~{page-content}">
 
@@ -124,9 +152,21 @@
 						</div>
 						
 					</div>
+					
+					<div class="row">
+                    
+						<div class="form-group form-material col-md-12">
+							<div class="control-group">
+								<label for="summernote" th:text="#{label.assignment.instructions}" class="form-control-label">Instructions</label>
+								<textarea class="form-control" id="summernote" th:field="*{instructions}" name="instructions" placeholder="content" maxlength="140" rows="7"></textarea> 
+							</div>
+						</div>
+						
+					</div>
 									
-                    <div class="form-group form-material" style="text-align: right;">
-                      <button type="submit" class="btn btn-primary btn-outline">Create Assignment</button>
+                    <div class="form-group form-material text-right">
+                      <button type="submit" th:if="${actionName} eq 'createAssignment'" class="btn btn-primary btn-outline">Create Assignment</button>
+                      <button type="submit" th:if="${actionName} eq 'editAssignment'" class="btn btn-primary btn-outline">Update Assignment</button>
                     </div>
                     
                   </form>

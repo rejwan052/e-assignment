@@ -29,12 +29,18 @@
 		</script>
 		
 	</th:block>
+	
+		<div class="page-header" id="assignmentInfoFragment" layout:fragment="~{page-header}">
+		
+            <th:block th:insert="fragments/teacher/assignmentInfo :: assignmentInfo"></th:block>
+             
+        </div>
 		
 		<!-- Panel -->
 		<div class="panel" layout:fragment="~{page-content}">
-          <div class="panel-heading" id="assignmentInfoFragment">
+          <!-- <div class="panel-heading" id="assignmentInfoFragment">
             	<th:block th:insert="fragments/teacher/assignmentInfo :: assignmentInfo"></th:block>
-          </div>
+          </div> -->
           
           <div class="panel-body" id="assignmentFragment">
             	<th:block th:insert="fragments/teacher/assignments :: assignments"></th:block>

@@ -46,6 +46,7 @@
        
        <div class="panel-body">
         	<span class="badge badge-outline badge-danger">Maximum file size is 25MB</span>
+        	<span class="badge badge-outline badge-danger">Only .doc .docx .pdf .zip .rar are allowed</span>
         	<form id="assignment-documents-form" th:object="${assignmentDocument}" th:action="@{/teacher/uploadAssignmentDocuments(assignmentId=${assignment.id})}" enctype="multipart/form-data">
         		<input type="hidden" id="assignmentId" th:field="${assignment.id}" />
 				<div id="assignment-documents-dropzone" class="dropzone dz-default dz-message file-dropzone text-center well col-sm-12">

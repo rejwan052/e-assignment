@@ -37,7 +37,7 @@
                       role="menu">
                       <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-user-plus" aria-hidden="true"></i> Add Student</a>
                       <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-calendar-plus-o" aria-hidden="true"></i> Update Assignment Submission Date</a>
-                      <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-download" aria-hidden="true"></i> Download  Assignment</a>
+                      <a class="dropdown-item" th:if="${assignment?.status==true}" href="javascript:void(0)" role="menuitem"><i class="icon fa-download" aria-hidden="true"></i> Download  Assignment</a>
                     </div>
                  </div>
                   

@@ -17,6 +17,7 @@ $(document).ready(function () {
     $.post("/teacher/assignment",formData,function(data){
     	
     	successMsg(data.message);
+    	event.blur();
     	
     }).fail(function(data) {
         if(data.responseJSON.error.indexOf("InternalError") > -1){

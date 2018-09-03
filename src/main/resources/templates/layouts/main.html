@@ -387,15 +387,15 @@
             <!-- Start Teacher Site Menu -->
             <ul sec:authorize="hasAuthority('TEACHER_PRIVILEGE')" class="site-menu" data-plugin="menu">
             
-              <li th:class="${actionName == 'assignments'} ? 'site-menu-item active' : 'site-menu-item'" >
+              <li th:class="|${actionName == 'assignments' ? 'site-menu-item active' : 'site-menu-item'}
+              				${actionName == 'editAssignment' ? 'site-menu-item active' : 'site-menu-item'}|" >
                 <a th:href="@{/teacher/assignments}" data-dropdown-toggle="false">
                   <i class="site-menu-icon icon md-assignment" aria-hidden="true"></i>
                   <span class="site-menu-title">Assignments</span>
                 </a>
               </li>
               
-              <li th:class="|${actionName == 'createAssignment' ? 'site-menu-item active' : 'site-menu-item'}
-              				${actionName == 'editAssignment' ? 'site-menu-item active' : 'site-menu-item'}|" >
+              <li th:class="${actionName == 'createAssignment'} ? 'site-menu-item active' : 'site-menu-item'" >
                 <a th:href="@{/teacher/createAssignment}" data-dropdown-toggle="false">
                   <i class="site-menu-icon icon md-assignment-o" aria-hidden="true"></i>
                   <span class="site-menu-title">Create Assignment</span>
@@ -441,8 +441,14 @@
     
 	<!-- Page -->
     <div class="page">
+    
+      <!-- Start Page Header Content -->
+      <div layout:fragment="~{page-header}">
+      		
+      </div>
+      <!-- End Page Header Content -->
+      
       <div class="page-content container-fluid">
-        
         
           <!-- Start Page content -->
           <div layout:fragment="~{page-content}">

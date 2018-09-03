@@ -117,7 +117,7 @@ public class TeacherController extends EAssignmentBaseController{
 	/*Start Assignment Save/Update Method*/
 	@RequestMapping(value="/assignment",method=RequestMethod.POST)
 	@ResponseBody
-	public GenericResponse saveAssignment(final Locale locale,@ModelAttribute("assignmentDto") @Valid AssignmentDTO assignmentDTO,@RequestParam Map<String,String> reqPar){
+	public GenericResponse saveAssignment(final Locale locale,@ModelAttribute("assignmentDto") @Valid AssignmentDTO assignmentDTO){
 		
 		assignmentService.saveAssignment(assignmentDTO);
 		
