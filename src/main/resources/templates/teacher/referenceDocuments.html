@@ -33,6 +33,18 @@
 		
 	</th:block>
 	
+	<div class="page-header" layout:fragment="~{page-header}">
+		
+    	<h1 class="page-title">Assignment Reference Documents</h1>
+    	<ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
+		  <li class="breadcrumb-item"><a th:href="@{/teacher/assignments}">Assignments</a></li>
+		  <li class="breadcrumb-item"><a th:href="@{/teacher/assignment/} + ${assignment.id}" th:text="${assignment.title}">Assignments</a></li>
+          <li class="breadcrumb-item active">Assignment Reference Documents</li>
+        </ol>
+		    
+	</div>
+	
 	
 	<div class="panel" layout:fragment="~{page-content}">
 	
