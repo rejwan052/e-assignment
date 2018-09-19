@@ -12,16 +12,16 @@
 
 	<th:block layout:fragment="~{page-specific-css-script}">
 	
-		<link th:href="@{assets/css/pages/profile/profile.css}" rel="stylesheet" type="text/css" />
-		<link th:href="@{assets/css/forms/layouts.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/assets/css/pages/profile/profile.min.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/assets/css/forms/layouts.css}" rel="stylesheet" type="text/css" />
 		
-		<link th:href="@{assets/global/vendor/dropzone/dropzone.css}" rel="stylesheet" type="text/css" />
-		<script th:src="@{assets/global/vendor/dropzone/dropzone.js}" type="text/javascript"></script>
-		<script th:src="@{assets/global/js/Plugin/responsive-tabs.js}"></script>
-		<script th:src="@{assets/global/js/Plugin/tabs.js}"></script>
-		<script th:src="@{assets/js/app/avatarDropzone.js}" type="text/javascript"></script>
-		<script th:src="@{assets/js/app/profile.js}" type="text/javascript"></script>
-		<script th:src="@{assets/js/pwstrength-bootstrap.min.js}"></script>
+		<link th:href="@{/assets/global/vendor/dropzone/dropzone.css}" rel="stylesheet" type="text/css" />
+		<script th:src="@{/assets/global/vendor/dropzone/dropzone.js}" type="text/javascript"></script>
+		<script th:src="@{/assets/global/js/Plugin/responsive-tabs.js}"></script>
+		<script th:src="@{/assets/global/js/Plugin/tabs.js}"></script>
+		<script th:src="@{/assets/js/app/avatarDropzone.js}" type="text/javascript"></script>
+		<script th:src="@{/assets/js/app/profile.js}" type="text/javascript"></script>
+		<script th:src="@{/assets/js/pwstrength-bootstrap.min.js}"></script>
 		
 		<style type="text/css">
 		
@@ -122,16 +122,29 @@
                 
                 <!-- <p class="profile-job badge badge-outline badge-primary" th:text="${#strings.listJoin(#messages.listMsg(#authentication?.principal?.user?.roles), ',')}">roles</p> -->
                 <!-- <p class="badge badge-outline badge-info" th:text="${#strings.listJoin(#messages.listMsg(#authentication?.principal?.authorities), ',')}">privileges</p> -->
+                <!-- <p class="badge badge-outline badge-info" th:each="p,iterStatus : ${#authentication?.principal?.authorities}" th:text="${p}">privileges</p> -->
+                
                 <p class="badge badge-lg badge-outline badge-info" th:each="r,iterStatus : ${#authentication?.principal?.user?.roles}" th:text="${r}">roles</p>
-                <p class="badge badge-outline badge-info" th:each="p,iterStatus : ${#authentication?.principal?.authorities}" th:text="${p}">privileges</p>
+                <p class="profile-job" th:text="${#authentication.principal.user.email}">privileges</p>
                 
                 <div class="profile-social">
                   <a class="icon bd-twitter" href="javascript:void(0)"></a>
                   <a class="icon bd-facebook" href="javascript:void(0)"></a>
-                  <a class="icon bd-dribbble" href="javascript:void(0)"></a>
                   <a class="icon bd-github" href="javascript:void(0)"></a>
                 </div>
                 
+              </div>
+              <div class="card-footer">
+	              <div class="row no-space">
+	                <div class="col-6">
+	                  <strong class="profile-stat-count">260</strong>
+	                  <span>Student</span>
+	                </div>
+	                <div class="col-6">
+	                  <strong class="profile-stat-count">180</strong>
+	                  <span>Assignment</span>
+	                </div>
+	              </div>
               </div>
             </div>
             <!-- End Page Widget -->

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.eassignment.authentication.IAuthenticationFacade;
+import com.eassignment.persistence.model.User;
+import com.eassignment.security.service.SecurityService;
 import com.eassignment.service.IDashboardService;
 import com.eassignment.service.IUserService;
 
@@ -26,12 +28,27 @@ public class HomeController extends EAssignmentBaseController {
 	@Autowired
 	private IDashboardService dashboardService;
 	
+	@Autowired
+	private SecurityService securityService;
+	
 	/*home page controller*/
 	
     @RequestMapping(value="/home",method=RequestMethod.GET)
     public String homePage(Model model) {
-		
-    	model.addAttribute("dashboardInfo", dashboardService.getEassignmentUserInformation());
+    	
+    	if(authenticationFacade.isAuthenticated()){
+    		
+    		User currentUser = userService.findUserByEmail(authenticationFacade.getAuthentication().getName());
+    		
+    		if(securityService.hasAdminPrivilege()){
+        		model.addAttribute("dashboardInfo", dashboardService.getEassignmentUserInformation());
+        	}else if(securityService.hasTeacherPrivilege()){
+        		model.addAttribute("dashboardInfo", dashboardService.getTeacherAssignmentInfo(currentUser.getId()));
+        	}else if(securityService.hasStudentPrivilege()){
+        		model.addAttribute("dashboardInfo", null);
+        	}
+    		
+    	}
 
 		return "index";
     }

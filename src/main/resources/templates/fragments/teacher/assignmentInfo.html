@@ -55,19 +55,19 @@
            <div class="row no-space w-250 hidden-sm-down">
              <div class="col-sm-4 verticalLine">
                <div class="counter">
-                 <span class="counter-number font-weight-medium num green-600">8</span>
+                 <span class="counter-number font-weight-medium num green-600" th:text="${assignmentInfo.saved}">8</span>
                  <div class="counter-label">Saved</div>
                </div>
              </div>
              <div class="col-sm-4">
                <div class="counter">
-                 <span class="counter-number font-weight-medium num orange-600">5</span>
+                 <span class="counter-number font-weight-medium num orange-600" th:text="${assignmentInfo.published}">5</span>
                  <div class="counter-label">Published</div>
                </div>
              </div>
              <div class="col-sm-4">
                <div class="counter">
-                 <span class="counter-number font-weight-medium num blue-600">13</span>
+                 <span class="counter-number font-weight-medium num blue-600" th:text="${assignmentInfo.total}">13</span>
                  <div class="counter-label">Total</div>
                </div>
              </div>

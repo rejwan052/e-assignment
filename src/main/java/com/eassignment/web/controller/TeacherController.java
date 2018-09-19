@@ -43,6 +43,7 @@ import com.eassignment.persistence.model.Document;
 import com.eassignment.persistence.model.User;
 import com.eassignment.service.IAssignmentService;
 import com.eassignment.service.IAssignmentStudentService;
+import com.eassignment.service.IDashboardService;
 import com.eassignment.service.IDocumentService;
 import com.eassignment.service.IUserService;
 import com.eassignment.web.dto.AssignmentDTO;
@@ -84,6 +85,9 @@ public class TeacherController extends EAssignmentBaseController{
 	@Autowired
 	private IDocumentService documentService;
 	
+	@Autowired
+	private IDashboardService dashboardService;
+	
 	
 	/*Assignments Page*/
 	@RequestMapping(value="/assignments",method=RequestMethod.GET)
@@ -99,6 +103,7 @@ public class TeacherController extends EAssignmentBaseController{
 		User user = userService.findUserByEmail(authenticationFacade.getAuthentication().getName());
 		
 		model.addAttribute("page", assignmentService.getUserAssignmentsByTitleOrStatus(user, searchTerm, status, pageable));
+		model.addAttribute("assignmentInfo", dashboardService.getTeacherAssignmentInfo(user.getId()));
 		
 		return PageConstantUtils.ASSIGNMENTS;
 	}
@@ -213,22 +218,28 @@ public class TeacherController extends EAssignmentBaseController{
 		
 		List<EmailsDto> emails = new ArrayList<>();
 		
-		Iterable<User> iterable = userService.searchEmail(query);
-		List<User> users = new ArrayList<>();
-		iterable.iterator().forEachRemaining(users::add);
-		
-		for (User user : users) {
-			EmailsDto dto = new EmailsDto();
-			dto.setEmail(user.getEmail());
+		if (authenticationFacade.isAuthenticated()) {
+					
+			User currentUser = userService.findUserByEmail(authenticationFacade.getAuthentication().getName());
 			
-			String firstName = user.getFirstName() != null ? user.getFirstName():""; 
-			String lastName = user.getLastName() !=null ?user.getLastName():"";
+			Iterable<User> iterable = userService.searchEmailByRoleAndUserId(query,currentUser.getId());
+			List<User> users = new ArrayList<>();
+			iterable.iterator().forEachRemaining(users::add);
 			
-			String name = firstName+" "+lastName;
-			
-			dto.setName(name);
-			emails.add(dto);
+			for (User user : users) {
+				EmailsDto dto = new EmailsDto();
+				dto.setEmail(user.getEmail());
+				
+				String firstName = user.getFirstName() != null ? user.getFirstName():""; 
+				String lastName = user.getLastName() !=null ?user.getLastName():"";
+				
+				String name = firstName+" "+lastName;
+				
+				dto.setName(name);
+				emails.add(dto);
+			}		
 		}
+		
 		
 		LOGGER.info("query String :"+query+"-->emails size :"+emails.size());
 		

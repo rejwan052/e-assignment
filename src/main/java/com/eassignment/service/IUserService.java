@@ -55,7 +55,7 @@ public interface IUserService {
     
     List<User> findByRolesNameAndEmailIgnoreCaseContainingOrFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(String roleName,String email,String firstName,String lastName);
     
-    Iterable<User> searchEmail(String filter);
+    Iterable<User> searchEmailByRoleAndUserId(String filter,long userId);
     
     Page<User> getAllUser(Pageable pageable);
     

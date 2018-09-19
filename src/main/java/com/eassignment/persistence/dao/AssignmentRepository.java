@@ -11,4 +11,8 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long>,Qu
 	
 	Assignment findByIdAndUserId(long id,long userId);
 	
+	long countByUserId(long userid);
+	
+	long countByUserIdAndStatus(long userid,boolean status);
+	
 }

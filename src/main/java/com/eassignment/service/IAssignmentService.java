@@ -15,5 +15,9 @@ public interface IAssignmentService {
 	void saveAssignment(AssignmentDTO assignmentDTO);
 	
 	Assignment getAssignmentByIdAndUser(long id,long userId);
+	
+	long countAssignmentByUserId(long userId);
+	
+	long countAssignmentByUserIdAndStatus(long userId,boolean status);
 
 }

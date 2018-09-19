@@ -335,4 +335,16 @@ public class AssignmentService implements IAssignmentService {
 		return assignmentRepository.findByIdAndUserId(id, userId);
 	}
 
+	@Override
+	public long countAssignmentByUserId(long userId) {
+		return assignmentRepository.countByUserId(userId);
+	}
+
+	@Override
+	public long countAssignmentByUserIdAndStatus(long userId, boolean status) {
+		return assignmentRepository.countByUserIdAndStatus(userId, status);
+	}
+
+	
+
 }

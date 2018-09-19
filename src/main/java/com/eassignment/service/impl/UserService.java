@@ -291,10 +291,13 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public Iterable<User> searchEmail(String filter) {
+	public Iterable<User> searchEmailByRoleAndUserId(String filter,long userId) {
 		QUser qUser = QUser.user;
 		Predicate predicate = qUser.email.containsIgnoreCase(filter)
-				   .and(qUser.roles.any().name.eq("ROLE_STUDENT"));
+				   .and(qUser.roles.any().name.eq("ROLE_STUDENT"))
+				   .and(qUser.createdBy.eq(userId));
+		
+		LOGGER.info("assignment's email predicate :"+predicate);
 		
 		
 		return repository.findAll(predicate);

@@ -84,7 +84,7 @@
                   </div>
                   <div class="counter counter-md counter text-right">
                     <div class="counter-number-group">
-                      <span class="counter-number" th:text="${dashboardInfo.totalUser}"> total assignments</span>
+                      <span class="counter-number" th:text="${dashboardInfo.total}"> total assignments</span>
                       <span class="counter-number-related text-capitalize">Total Assignments</span>
                     </div>
                     <a th:href="@{/teacher/assignments}" class="btn btn-pure btn-primary icon-2x md-view-list waves-effect waves-classic"></a>
@@ -101,7 +101,7 @@
                   </div>
                   <div class="counter counter-md counter text-right">
                     <div class="counter-number-group">
-                      <span class="counter-number" th:text="${dashboardInfo.totalTeacher}"> published</span>
+                      <span class="counter-number" th:text="${dashboardInfo.published}"> published</span>
                       <span class="counter-number-related text-capitalize">Published</span>
                     </div>
                     <a th:href="@{/teacher/assignments}" class="btn btn-pure btn-primary icon-2x md-view-list waves-effect waves-classic"></a>
@@ -118,7 +118,7 @@
                   </div>
                   <div class="counter counter-md counter text-right">
                     <div class="counter-number-group">
-                      <span class="counter-number" th:text="${dashboardInfo.totalStudent}">saved</span>
+                      <span class="counter-number" th:text="${dashboardInfo.saved}">saved</span>
                       <span class="counter-number-related text-capitalize">Saved</span>
                     </div>
                     <a th:href="@{/teacher/assignments}" class="btn btn-pure btn-primary icon-2x md-view-list waves-effect waves-classic"></a>

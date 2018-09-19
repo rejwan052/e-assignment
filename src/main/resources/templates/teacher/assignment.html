@@ -70,7 +70,7 @@
 		    	<ol class="breadcrumb">
 		          <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
 		          <li class="breadcrumb-item"><a th:href="@{/teacher/assignments}">Assignments</a></li>
-		          <li class="breadcrumb-item active">Edit Assignment</li>
+		          <li class="breadcrumb-item active" th:text="${assignmentDto.title}">Edit Assignment</li>
 		        </ol>
 		    </div>
 		    
