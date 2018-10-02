@@ -88,6 +88,9 @@
 
 	<form role="form" id="userUpdateForm" th:object="${updateUser}"  method="post">
 		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
 			<h3 class="modal-title" th:if="*{firstName != null && lastName != null}" th:text="*{'Update '+firstName+' '+lastName}">update user</h3>
 		</div>
 		<div class="modal-body">
